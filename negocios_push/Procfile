@@ -1,0 +1,1 @@
+web: gunicorn negocios_push.wsgi
