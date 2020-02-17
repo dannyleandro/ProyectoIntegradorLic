@@ -17,3 +17,4 @@ vc==2018.7.10
 wheel==0.34.2
 wincertstore==0.2
 gunicorn==20.0.4
+whitenoise==5.0.1
