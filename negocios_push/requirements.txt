@@ -16,3 +16,4 @@ vc==2018.7.10
 # vs2015_runtime==14.16.27012
 wheel==0.34.2
 wincertstore==0.2
+gunicorn==20.0.4
