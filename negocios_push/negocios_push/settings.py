@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'negociospush.apps.NegociospushConfig',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_auth',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [

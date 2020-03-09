@@ -1,1 +1,4 @@
 /negocios_push/.idea/
+negocios_push/negocios_push/__pycache__/
+negocios_push/negociospush/__pycache__/
+negocios_push/negociospush/migrations/__pycache__/
