@@ -10,4 +10,11 @@ urlpatterns = [
     url(r'^profiles', views.ListProfiles.as_view()),
     url(r'^products', views.ListProducts.as_view()),
     url(r'^processes', views.ListProcesses.as_view()),
+    url(r'^login',  views.login, name='login'),
+    url(r'^dashboard',  views.dashboard, name='dashboard'),
+    url(r'^register',  views.register, name='register'),
+    url(r'^forgot-password',  views.forgotPassword, name='forgotPassword'),
+    url(r'^process', views.process, name='process'),
+
+
 ]

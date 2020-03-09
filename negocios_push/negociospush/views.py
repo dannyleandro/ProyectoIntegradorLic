@@ -7,6 +7,24 @@ def index(request):
     return render(request, 'index.html')
 
 
+def login(request):
+    return render(request, './frontend/pages/examples/login.html')
+
+def register(request):
+    return render(request, './frontend/pages/examples/register.html')
+
+def forgotPassword(request):
+    return render(request, './frontend/pages/examples/forgot-password.html')
+
+def process(request):
+    return render(request, './frontend/pages/mailbox/mailbox.html')
+
+def dashboard(request):
+    return render(request, './frontend/index.html')
+
+
+
+
 # Create your views here.
 class ListProfiles(generics.ListCreateAPIView):
     queryset = Profile.objects.all()

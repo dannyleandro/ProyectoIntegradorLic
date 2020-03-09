@@ -2,123 +2,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>NegociosPush</title>
-	<link rel="icon" href="{% static 'dist/img/NPicon.png'%}" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NegociosPush</title>
+    <link rel="icon" href="{% static 'dist/img/NPicon.png' %}" type="image/png">
 
-  <link rel="stylesheet" href="{% static 'dist/vendors/bootstrap/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/vendors/fontawesome/css/all.min.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/vendors/themify-icons/themify-icons.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/vendors/linericon/style.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/vendors/owl-carousel/owl.theme.default.min.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/vendors/owl-carousel/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/vendors/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/vendors/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/vendors/themify-icons/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/vendors/linericon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/vendors/owl-carousel/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/vendors/owl-carousel/owl.carousel.min.css' %}">
 
-  <link rel="stylesheet" href="{% static 'dist/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/style.css' %}">
 </head>
 <body>
-  <!--================Header Menu Area =================-->
-  <header class="header_area">
+<!--================Header Menu Area =================-->
+<header class="header_area">
     <div class="main_menu">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container box_1620">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <a class="nav-link" style="color: #fff" href="index.html">Negocios Push</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav justify-content-end">
-              <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li> 
-              <li class="nav-item"><a class="nav-link" href="feature.html">Características</a></li>
-              <li class="nav-item"><a class="nav-link" href="pricing.html">Precio</a>
-              <li class="nav-item"><a href="us.html" class="nav-link" >Nosotros</a></li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
-            </ul>
-            <ul class="navbar-right">
-              <li class="nav-item">
-                <button class="button button-header bg">Registrarse</button>
-              </li>
-            </ul>
-          </div> 
-        </div>
-      </nav>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container box_1620">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="nav-link" style="color: #fff" href="index.html">Negocios Push</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav justify-content-end">
+                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="feature.html">Características</a></li>
+                        <li class="nav-item"><a class="nav-link" href="pricing.html">Precio</a>
+                        <li class="nav-item"><a href="us.html" class="nav-link">Nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
+                    </ul>
+                    <ul class="navbar-right">
+                        <li class="nav-item">
+                            <form action="register" method="post">
+                                {% csrf_token %}
+                                <button class="button button-header bg" type="submit">Registrarse</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
-  </header>
-  <!--================Header Menu Area =================-->
+</header>
+<!--================Header Menu Area =================-->
 
 
-  <main class="side-main">
-    <!--================ Hero sm Banner start =================-->      
+<main class="side-main">
+    <!--================ Hero sm Banner start =================-->
     <section class="hero-banner mb-30px">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-7">
-            <div class="hero-banner__img">
-              <img class="img-fluid" src="{% static 'dist/img/banner/hero-banner.png' %}" alt="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="hero-banner__img">
+                        <img class="img-fluid" src="{% static 'dist/img/banner/hero-banner.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-5 pt-5">
+                    <div class="hero-banner__content">
+                        <h1>Contratar con el estado, más facil que nunca</h1>
+                        <p>Mejora las oportunidades de negocio de tu empresa conociendo de primera mano las licitaciones
+                            que el estado ofrece. Obten una ventaja frente a tus competidores adquiriendo información
+                            antes que ellos.</p>
+                        <a class="button bg" href="#">Empezar</a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-5 pt-5">
-            <div class="hero-banner__content">
-              <h1>Contratar con el estado, más facil que nunca</h1>
-              <p>Mejora las oportunidades de negocio de tu empresa conociendo de primera mano las licitaciones que el estado ofrece. Obten una ventaja frente a tus competidores adquiriendo información antes que ellos.</p>
-              <a class="button bg" href="#">Empezar</a>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
     <!--================ Hero sm Banner end =================-->
 
-    <!--================ Feature section start =================-->      
+    <!--================ Feature section start =================-->
     <section class="section-margin">
-      <div class="container">
-        <div class="section-intro pb-85px text-center">
-          <h2 class="section-intro__title">Notificaciones sobre oportunidades</h2>
-          <p class="section-intro__subtitle">Te notificamos por diferentes medios cuando el estado publique licitaciones que puedan ser oportunas para tu negocio. Buscamos oportunidades de acuerdo al perfil de tu empresa que es altamente configurable. Utilizamos algoritmos avanzados para proveerte la mejor información que se adecue a tu negocio.</p>
-        </div>
-
         <div class="container">
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="card card-feature text-center text-lg-left mb-4 mb-lg-0">
+            <div class="section-intro pb-85px text-center">
+                <h2 class="section-intro__title">Notificaciones sobre oportunidades</h2>
+                <p class="section-intro__subtitle">Te notificamos por diferentes medios cuando el estado publique
+                    licitaciones que puedan ser oportunas para tu negocio. Buscamos oportunidades de acuerdo al perfil
+                    de tu empresa que es altamente configurable. Utilizamos algoritmos avanzados para proveerte la mejor
+                    información que se adecue a tu negocio.</p>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-feature text-center text-lg-left mb-4 mb-lg-0">
                 <span class="card-feature__icon">
                   <i class="ti-package"></i>
                 </span>
-                <h3 class="card-feature__title">Facilmente configurable</h3>
-                <p class="card-feature__subtitle">Puedes configurar de manera sencilla y práctica tu cuenta para ajustarla al perfil de tu negocio. Esto nos permitirá encontrar oportunidades que más se adapten a tu empresa</p>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card card-feature text-center text-lg-left mb-4 mb-lg-0">
+                            <h3 class="card-feature__title">Facilmente configurable</h3>
+                            <p class="card-feature__subtitle">Puedes configurar de manera sencilla y práctica tu cuenta
+                                para ajustarla al perfil de tu negocio. Esto nos permitirá encontrar oportunidades que
+                                más se adapten a tu empresa</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-feature text-center text-lg-left mb-4 mb-lg-0">
                 <span class="card-feature__icon">
                   <i class="ti-mouse-alt"></i>
                 </span>
-                <h3 class="card-feature__title">Notificaciones sobre oportunidades</h3>
-                <p class="card-feature__subtitle">Te permite configurar qué tipo de notificaciones recibir, puede ser un correo electrónico, mensaje de texto, RSS entre otros.</p>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card card-feature text-center text-lg-left mb-4 mb-lg-0">
+                            <h3 class="card-feature__title">Notificaciones sobre oportunidades</h3>
+                            <p class="card-feature__subtitle">Te permite configurar qué tipo de notificaciones recibir,
+                                puede ser un correo electrónico, mensaje de texto, RSS entre otros.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-feature text-center text-lg-left mb-4 mb-lg-0">
                 <span class="card-feature__icon">
                   <i class="ti-headphone-alt"></i>
                 </span>
-                <h3 class="card-feature__title">Búsqueda de oportunidades más fácil</h3>
-                <p class="card-feature__subtitle">Nuestro buscador es mucho más fácil de utilizar, con un mejor diseño te permitirá encontrar más rápido la oportunidad que buscas</p>
-              </div>
+                            <h3 class="card-feature__title">Búsqueda de oportunidades más fácil</h3>
+                            <p class="card-feature__subtitle">Nuestro buscador es mucho más fácil de utilizar, con un
+                                mejor diseño te permitirá encontrar más rápido la oportunidad que buscas</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
-    <!--================ Feature section end =================-->      
-    
+    <!--================ Feature section end =================-->
+
     <!--================ about section start =================-->
-<!--
+    <!--
     <section class="section-padding--small bg-magnolia">
       <div class="container">
         <div class="row no-gutters align-items-center">
@@ -138,7 +152,7 @@
       </div>
     </section>
     -->
-      <!--================ about section end =================-->
+    <!--================ about section end =================-->
     <!--================ Offer section start =================-->
     <!--
     <section class="section-margin">
@@ -205,104 +219,107 @@
       </div>
     </section>
     -->
-    <!--================ Offer section end =================-->      
+    <!--================ Offer section end =================-->
 
-    <!--================ Solution section start =================-->      
+    <!--================ Solution section start =================-->
     <section class="section-padding--small bg-magnolia">
-      <div class="container">
-        <div class="row align-items-center pt-xl-3 pb-xl-5">
-          <div class="col-lg-6">
-            <div class="solution__img text-center text-lg-left mb-4 mb-lg-0">
-              <img class="img-fluid" src="{% static 'dist/img/home/solution.png' %}" alt="">
+        <div class="container">
+            <div class="row align-items-center pt-xl-3 pb-xl-5">
+                <div class="col-lg-6">
+                    <div class="solution__img text-center text-lg-left mb-4 mb-lg-0">
+                        <img class="img-fluid" src="{% static 'dist/img/home/solution.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="solution__content">
+                        <h2>Soluciones simples a búsquedas complejas</h2>
+                        <p>Con nuestros avanzados algoritmos podemos proveer de primera mano las mejores oportunidades
+                            para que puedas contratar con el estado más fácil. Nuestra información se actualiza
+                            constantemente impidiendo demoras</p>
+                        <a class="button button-light" href="#">Know More</a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="solution__content">
-              <h2>Soluciones simples a búsquedas complejas</h2>
-              <p>Con nuestros avanzados algoritmos podemos proveer de primera mano las mejores oportunidades para que puedas contratar con el estado más fácil. Nuestra información se actualiza constantemente impidiendo demoras</p>
-              <a class="button button-light" href="#">Know More</a>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
-    <!--================ Solution section end =================-->      
+    <!--================ Solution section end =================-->
 
-    <!--================ Pricing section start =================-->      
+    <!--================ Pricing section start =================-->
     <section class="section-margin">
-      <div class="container">
-        <div class="section-intro pb-85px text-center">
-          <h2 class="section-intro__title">Escoge tu plan</h2>
-          <p class="section-intro__subtitle">Ofrecemos diferentes alternativas de pago dependiendo de lo que necesites</p>
+        <div class="container">
+            <div class="section-intro pb-85px text-center">
+                <h2 class="section-intro__title">Escoge tu plan</h2>
+                <p class="section-intro__subtitle">Ofrecemos diferentes alternativas de pago dependiendo de lo que
+                    necesites</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                    <div class="card text-center card-pricing">
+                        <div class="card-pricing__header">
+                            <h4>Particular</h4>
+                            <p>Ofrecido a personas naturales que buscan prestar sus servicios al estado</p>
+                            <h1 class="card-pricing__price"><span>$10K/Mes 100K/Año</span></h1>
+                        </div>
+                        <ul class="card-pricing__list">
+                            <li><i class="ti-check"></i>Personalización completa</li>
+                            <li><i class="ti-check"></i>Notificaciones ilimitadas</li>
+                            <li><i class="ti-check"></i>Buscador de la página</li>
+                            <li><i class="ti-check"></i>Información completa</li>
+                            <li><br/></li>
+                        </ul>
+                        <div class="card-pricing__footer">
+                            <button class="button button-light">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                    <div class="card text-center card-pricing">
+                        <div class="card-pricing__header">
+                            <h4>Empresarial limitado</h4>
+                            <p>Obtén beneficios esenciales para buscar oportunidades</p>
+                            <h1 class="card-pricing__price"><span>$100K/Mes 1M/Año</span></h1>
+                        </div>
+                        <ul class="card-pricing__list">
+                            <li><i class="ti-check"></i>Configuración de 1 solo perfil</li>
+                            <li><i class="ti-check"></i>Notificaciones limitadas (10 al mes)</li>
+                            <li><i class="ti-check"></i>Buscador de la página</li>
+                            <li class="unvalid"><i class="ti-close"></i>Sin acceso a consultoria</li>
+                            <li class="unvalid"><i class="ti-close"></i>Información básica de la oferta</li>
+                        </ul>
+                        <div class="card-pricing__footer">
+                            <button class="button button-light">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                    <div class="card text-center card-pricing">
+                        <div class="card-pricing__header">
+                            <h4>Empresarial completo</h4>
+                            <p>Todo el paquete de servicios que ofrecemos con la información más detallada</p>
+                            <h1 class="card-pricing__price"><span>$200K/Mes 2M/Año</span></h1>
+                        </div>
+                        <ul class="card-pricing__list">
+                            <li><i class="ti-check"></i>Perfiles ilimitados</li>
+                            <li><i class="ti-check"></i>Notificaciones ilimitadas</li>
+                            <li><i class="ti-check"></i>Buscador de la página</li>
+                            <li><i class="ti-check"></i>Consultoría</li>
+                            <li><i class="ti-check"></i>Información completa de la oferta</li>
+                        </ul>
+                        <div class="card-pricing__footer">
+                            <button class="button button-light">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="card text-center card-pricing">
-              <div class="card-pricing__header">
-                <h4>Particular</h4>
-                <p>Ofrecido a personas naturales que buscan prestar sus servicios al estado</p>
-                <h1 class="card-pricing__price"><span>$10K/Mes 100K/Año</span></h1>
-              </div>
-              <ul class="card-pricing__list">
-                <li><i class="ti-check"></i>Personalización completa</li>
-                <li><i class="ti-check"></i>Notificaciones ilimitadas</li>
-                <li><i class="ti-check"></i>Buscador de la página</li>
-                <li><i class="ti-check"></i>Información completa</li>
-                <li><br/></li>
-              </ul>
-              <div class="card-pricing__footer">
-                <button class="button button-light">Comprar</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="card text-center card-pricing">
-              <div class="card-pricing__header">
-                <h4>Empresarial limitado</h4>
-                <p>Obtén beneficios esenciales para buscar oportunidades</p>
-                <h1 class="card-pricing__price"><span>$100K/Mes 1M/Año</span></h1>
-              </div>
-              <ul class="card-pricing__list">
-                <li><i class="ti-check"></i>Configuración de 1 solo perfil</li>
-                <li><i class="ti-check"></i>Notificaciones limitadas (10 al mes)</li>
-                <li><i class="ti-check"></i>Buscador de la página</li>
-                <li class="unvalid"><i class="ti-close"></i>Sin acceso a consultoria</li>
-                <li class="unvalid"><i class="ti-close"></i>Información básica de la oferta</li>
-              </ul>
-              <div class="card-pricing__footer">
-                <button class="button button-light">Comprar</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="card text-center card-pricing">
-              <div class="card-pricing__header">
-                <h4>Empresarial completo</h4>
-                <p>Todo el paquete de servicios que ofrecemos con la información más detallada</p>
-                <h1 class="card-pricing__price"><span>$200K/Mes 2M/Año</span></h1>
-              </div>
-              <ul class="card-pricing__list">
-                <li><i class="ti-check"></i>Perfiles ilimitados</li>
-                <li><i class="ti-check"></i>Notificaciones ilimitadas</li>
-                <li><i class="ti-check"></i>Buscador de la página</li>
-                <li><i class="ti-check"></i>Consultoría</li>
-                <li><i class="ti-check"></i>Información completa de la oferta</li>
-              </ul>
-              <div class="card-pricing__footer">
-                <button class="button button-light">Comprar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
-    <!--================ Pricing section end =================-->      
+    <!--================ Pricing section end =================-->
 
-    <!--================ Testimonial section start =================-->      
-<!--
+    <!--================ Testimonial section start =================-->
+    <!--
     <section class="section-padding bg-magnolia">
       <div class="container">
         <div class="section-intro pb-5 text-center">
@@ -345,11 +362,11 @@
       </div>
     </section>
 -->
-    <!--================ Testimonial section end =================-->      
+    <!--================ Testimonial section end =================-->
 
 
     <!--================ Start Clients Logo Area =================-->
-<!--
+    <!--
     <section class="clients_logo_area section-padding">
       <div class="container">
         <div class="clients_slider owl-carousel">
@@ -373,87 +390,92 @@
     </section>
 -->
     <!--================ End Clients Logo Area =================-->
-  </main>
+</main>
 
 
-  <!-- ================ start footer Area ================= -->
-  <footer class="footer-area section-gap">
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
-					<h4>Top Products</h4>
-					<ul>
-						<li><a href="#">Managed Website</a></li>
-						<li><a href="#">Manage Reputation</a></li>
-						<li><a href="#">Power Tools</a></li>
-						<li><a href="#">Marketing Service</a></li>
-					</ul>
-				</div>
-				<div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
-					<h4>Quick Links</h4>
-					<ul>
-						<li><a href="#">Jobs</a></li>
-						<li><a href="#">Brand Assets</a></li>
-						<li><a href="#">Investor Relations</a></li>
-						<li><a href="#">Terms of Service</a></li>
-					</ul>
-				</div>
-				<div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
-					<h4>Features</h4>
-					<ul>
-						<li><a href="#">Jobs</a></li>
-						<li><a href="#">Brand Assets</a></li>
-						<li><a href="#">Investor Relations</a></li>
-						<li><a href="#">Terms of Service</a></li>
-					</ul>
-				</div>
-				<div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
-					<h4>Resources</h4>
-					<ul>
-						<li><a href="#">Guides</a></li>
-						<li><a href="#">Research</a></li>
-						<li><a href="#">Experts</a></li>
-						<li><a href="#">Agencies</a></li>
-					</ul>
-				</div>
-				<div class="col-xl-4 col-md-8 mb-4 mb-xl-0 single-footer-widget">
-					<h4>Newsletter</h4>
-					<p>You can trust us. we only send promo offers,</p>
-					<div class="form-wrap" id="mc_embed_signup">
-						<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-						 method="get" class="form-inline">
-							<input class="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '"
-							 required="" type="email">
-							<button class="click-btn btn btn-default">subscribe</button>
-							<div style="position: absolute; left: -5000px;">
-								<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-							</div>
+<!-- ================ start footer Area ================= -->
+<footer class="footer-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
+                <h4>Top Products</h4>
+                <ul>
+                    <li><a href="#">Managed Website</a></li>
+                    <li><a href="#">Manage Reputation</a></li>
+                    <li><a href="#">Power Tools</a></li>
+                    <li><a href="#">Marketing Service</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Jobs</a></li>
+                    <li><a href="#">Brand Assets</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
+                <h4>Features</h4>
+                <ul>
+                    <li><a href="#">Jobs</a></li>
+                    <li><a href="#">Brand Assets</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-2 col-sm-6 mb-4 mb-xl-0 single-footer-widget">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Guides</a></li>
+                    <li><a href="#">Research</a></li>
+                    <li><a href="#">Experts</a></li>
+                    <li><a href="#">Agencies</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-4 col-md-8 mb-4 mb-xl-0 single-footer-widget">
+                <h4>Newsletter</h4>
+                <p>You can trust us. we only send promo offers,</p>
+                <div class="form-wrap" id="mc_embed_signup">
+                    <form target="_blank"
+                          action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                          method="get" class="form-inline">
+                        <input class="form-control" name="EMAIL" placeholder="Your Email Address"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '"
+                               required="" type="email">
+                        <button class="click-btn btn btn-default">subscribe</button>
+                        <div style="position: absolute; left: -5000px;">
+                            <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                        </div>
 
-							<div class="info"></div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="footer-bottom row align-items-center text-center text-lg-left">
-				<p class="footer-text m-0 col-lg-8 col-md-12"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-				<div class="col-lg-4 col-md-12 text-center text-lg-right footer-social">
-					<a href="#"><i class="fab fa-facebook-f"></i></a>
-					<a href="#"><i class="fab fa-twitter"></i></a>
-					<a href="#"><i class="fab fa-dribbble"></i></a>
-					<a href="#"><i class="fab fa-behance"></i></a>
-				</div>
-			</div>
-		</div>
-	</footer>
-  <!-- ================ End footer Area ================= -->
+                        <div class="info"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom row align-items-center text-center text-lg-left">
+            <p class="footer-text m-0 col-lg-8 col-md-12">
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-md-12 text-center text-lg-right footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-dribbble"></i></a>
+                <a href="#"><i class="fab fa-behance"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ================ End footer Area ================= -->
 
-  <script src="{% static 'dist/vendors/jquery/jquery-3.2.1.min.js' %}"></script>
-  <script src="{% static 'dist/vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'dist/vendors/owl-carousel/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'dist/js/jquery.ajaxchimp.min.js' %}"></script>
-  <script src="{% static 'dist/js/mail-script.js' %}"></script>
-  <script src="{% static 'dist/js/main.js' %}"></script>
+<script src="{% static 'dist/vendors/jquery/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'dist/vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'dist/vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'dist/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'dist/js/mail-script.js' %}"></script>
+<script src="{% static 'dist/js/main.js' %}"></script>
 </body>
 </html>

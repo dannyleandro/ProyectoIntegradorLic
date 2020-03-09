@@ -1,100 +1,100 @@
 {% extends 'frontend/pages/layout/base.html' %}
 {% block body %}
-{% load static %}
-<!-- Content Header (Page header) -->
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Dashboard</h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard v1</li>
-        </ol>
-      </div><!-- /.col -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
-<!-- Main content -->
-<section class="content">
-  <div class="container-fluid">
-    <!-- Small boxes (Stat box) -->
-    <div class="row">
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-info">
-          <div class="inner">
-            <h3>150</h3>
+  {% load static %}
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0 text-dark">Dashboard</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>150</h3>
 
-            <p>New Orders</p>
+              <p>Nuevos Procesos </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <div class="icon">
-            <i class="ion ion-bag"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
-          <div class="inner">
-            <h3>53<sup style="font-size: 20px">%</sup></h3>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>10<sup style="font-size: 20px">%</sup></h3>
 
-            <p>Bounce Rate</p>
+              <p>Nuevos Procesos Colombia Compra</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <div class="icon">
-            <i class="ion ion-stats-bars"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-warning">
-          <div class="inner">
-            <h3>44</h3>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>44</h3>
 
-            <p>User Registrations</p>
+              <p>Buscadores de Procesos Similares</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <div class="icon">
-            <i class="ion ion-person-add"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-danger">
-          <div class="inner">
-            <h3>65</h3>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>15</h3>
 
-            <p>Unique Visitors</p>
+              <p>Tus Filtos</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <div class="icon">
-            <i class="ion ion-pie-graph"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
+        <!-- ./col -->
       </div>
-      <!-- ./col -->
-    </div>
-    <!-- /.row -->
-    <!-- Main row -->
-    <div class="row">
-      <!-- Left col -->
-      <section class="col-lg-7 connectedSortable">
+      <!-- /.row -->
+      <!-- Main row -->
+      <div class="row">
+        <!-- Left col -->
+        {% comment %}<section class="col-lg-7 connectedSortable">
         <!-- Custom tabs (Charts with tabs)-->
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">
               <i class="fas fa-chart-pie mr-1"></i>
-              Sales
+              Areas
             </h3>
             <div class="card-tools">
               <ul class="nav nav-pills ml-auto">
@@ -102,7 +102,7 @@
                   <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                  <a class="nav-link" href="#sales-chart" data-toggle="tab">Dona</a>
                 </li>
               </ul>
             </div>
@@ -454,10 +454,10 @@
           </div>
         </div>
         <!-- /.card -->
-      </section>
-      <!-- /.Left col -->
-      <!-- right col (We are only adding the ID to make the widgets sortable)-->
-      <section class="col-lg-5 connectedSortable">
+      </section>{% endcomment %}
+        <!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+        {% comment %} <section class="col-lg-5 connectedSortable">
 
         <!-- Map card -->
         <div class="card bg-gradient-primary">
@@ -601,12 +601,48 @@
           <!-- /.card-body -->
         </div>
         <!-- /.card -->
-      </section>
-      <!-- right col -->
-    </div>
-    <!-- /.row (main row) -->
-  </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+      </section>{% endcomment %}
+        <!-- right col -->
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Estadisticas Generales</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+
+          <table class="table table-sm">
+
+            <tbody>
+            <tr>
+              <td class=" s"><label>Año</label>2020</td>
+              <td class=" s"><label>Total Procesos</label><a href="/?fecha=2020/01/01 - 2020/12/31">99,987</a></td>
+              <td class=" s"><label>Entidades</label><a href="/resumen/entidades?ano=2020">4,422</a></td>
+              <td class=" s"><label>Estados</label><a href="/resumen/estados?ano=2020">9</a></td>
+              <td class=" s"><label>Tipos</label><a href="/resumen/tipos?ano=2020">13</a></td>
+              <td class=" s"><label>Tipos Fecha</label><a href="/resumen/tipos_fecha?ano=2020">9</a></td>
+              <td class=" s"><label>Municipios</label><a href="/resumen/municipios?ano=2020">1,120</a></td>
+              <td class=" s"><label>Total Cuantías</label>$41,743,303,701,384</td>
+              <td class=" s"><label>Promedio Cuantías</label>$1,916,689,293</td>
+              <td><label>Cuantía Máxima</label>$3,478,587,594,850</td>
+              <td><label>Cuantía Mínima</label>$0</td>
+              <td ><label>Última Detección</label>2020-03-09</td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+
+      <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+  </section>
+
+
+
+  <!-- /.content -->
 {% endblock %}
 
