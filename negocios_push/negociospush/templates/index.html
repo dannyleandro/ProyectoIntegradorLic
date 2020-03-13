@@ -41,12 +41,12 @@
                         <li class="nav-item"><a href="us.html" class="nav-link">Nosotros</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
                     </ul>
-                    <ul class="navbar-right">
+                    <ul class="navbar">
                         <li class="nav-item">
-                            <form action="register" method="post">
-                                {% csrf_token %}
-                                <button class="button button-header bg" type="submit">Registrarse</button>
-                            </form>
+                            <div class="container">
+                                <a href="{% url 'register' %}" class="btn btn-light my-2">Registrarse</a>
+                                <a href="{% url 'login' %}" class="btn btn-light my-2">Login</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -73,7 +73,7 @@
                         <p>Mejora las oportunidades de negocio de tu empresa conociendo de primera mano las licitaciones
                             que el estado ofrece. Obten una ventaja frente a tus competidores adquiriendo información
                             antes que ellos.</p>
-                        <a class="button bg" href="#">Empezar</a>
+                        <a class="button bg" href="{% url 'register' %}">Empezar</a>
                     </div>
                 </div>
             </div>
