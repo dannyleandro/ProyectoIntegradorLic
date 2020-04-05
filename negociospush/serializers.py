@@ -34,12 +34,12 @@ class ProcessSerializer (serializers.ModelSerializer):
     class Meta:
         fields = (
             'IdProcess',
-            'EntityCode ',
-            'EntityName ',
+            'EntityCode',
+            'EntityName',
             'EntityNIT',
-            'ProcessType',
             'ProcessNumber',
             'ProcessState',
+            'ProcessStateName',
             'ExecutionCity',
             'IdProcessType',
             'ProcessTypeName',

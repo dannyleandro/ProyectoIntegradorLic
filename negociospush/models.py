@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from datetime import datetime 
 
 # Create your models here.
 class Product (models.Model):
@@ -25,21 +25,21 @@ class Profile(models.Model):
 
 class Process (models.Model):
     IdProcess = models.AutoField(primary_key=True)
-    EntityCode = models.IntegerField()
-    EntityName = models.CharField(max_length=255)
-    EntityNIT = models.CharField(max_length=15)
-    ProcessType = models.IntegerField()
-    ProcessNumber = models.IntegerField()
-    ProcessState = models.IntegerField()
-    ExecutionCity = models.CharField(max_length=255)
-    IdProcessType = models.IntegerField()
-    ProcessTypeName = models.CharField(max_length=255)
-    SegmentCode = models.IntegerField()
-    FamilyCode = models.IntegerField()
-    ClassCode = models.IntegerField()
-    Description = models.CharField(max_length=255)
-    ContractType = models.CharField(max_length=255)
-    LoadDate = models.DateField()
-    SystemLoadDate = models.DateTimeField()
-    Amount = models.DecimalField(max_digits=20, decimal_places=2)
-    DefinitiveAmount = models.DecimalField(max_digits=20, decimal_places=2)
+    EntityCode = models.IntegerField(null=True)
+    EntityName = models.CharField(max_length=255, null=True)
+    EntityNIT = models.CharField(max_length=15, null=True)
+    ProcessNumber = models.CharField(max_length=15)
+    ProcessState = models.IntegerField(null=True)
+    ProcessStateName = models.CharField(max_length=255, null=True)
+    ExecutionCity = models.TextField(null=True)
+    IdProcessType = models.IntegerField(null=True)
+    ProcessTypeName = models.CharField(max_length=255, null=True)
+    SegmentCode = models.IntegerField(null=True)
+    FamilyCode = models.IntegerField(null=True)
+    ClassCode = models.IntegerField(null=True)
+    Description = models.TextField(null=True)
+    ContractType = models.CharField(max_length=255, null=True)
+    LoadDate = models.DateField(null=True)
+    SystemLoadDate = models.DateTimeField(default=datetime.now)
+    Amount = models.DecimalField(max_digits=20, decimal_places=2, default=0.0, null=True)
+    DefinitiveAmount = models.DecimalField(max_digits=20, decimal_places=2, null=True)
