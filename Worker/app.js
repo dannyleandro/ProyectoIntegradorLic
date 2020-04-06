@@ -2,6 +2,7 @@
 
 const request = require('request');
 const { Pool } = require('pg');
+const cron = require("node-cron");
 
 const pool = new Pool({
 	user: process.env.USERDB,
@@ -147,10 +148,6 @@ function main(){
 	});
 }
 
-async function existsProcess(){
-
-}
-
 function deleteRecords(){
 	console.log('Se borraran los registros');
 	pool.query(delete_old_processes, (err, res) => {
@@ -162,5 +159,11 @@ function deleteRecords(){
 	});
 }
 
-main();
-deleteRecords();
+// schedule tasks to be run on the server
+cron.schedule("5 0 * * *", function() {
+	console.log("---------------------");
+	console.log("Running Cron Job");
+	main();
+	deleteRecords();
+});
+
