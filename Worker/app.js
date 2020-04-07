@@ -11,21 +11,6 @@ const pool = new Pool({
 	password: process.env.PASSDB,
 	port: process.env.PORTDB,
 });
-var datetime = new Date();
-const limSupFecha = datetime.getDate().toString().padStart(2, "0") + "-" + (datetime.getMonth()+1).toString().padStart(2, "0") + "-" + datetime.getFullYear();
-datetime.setDate(datetime.getDate()-1);
-const limInfFecha = datetime.getDate().toString().padStart(2, "0") + "-" + (datetime.getMonth()+1).toString().padStart(2, "0") + "-" + datetime.getFullYear();
-const id_estado_proceso = '2';
-
-const options = {
-	url: 'https://www.contratos.gov.co/administracion/api/Procesos/detalleProceso?limInfFecha=' + limInfFecha + '&limSupFecha=' + limSupFecha + '&id_estado_proceso='+id_estado_proceso+'&tamano=100',
-	method: 'GET',
-	headers: {
-		'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1NXMzckM0cnAzdDQifQ.Y_bn-wolLvuKcQ8yeH5jbUnsTO-OYc-PnhL3HYaoVwk',
-		'Content-Type': 'Application/json'
-	},
-	rejectUnauthorized: false
-}
 
 const process_exists = "SELECT 1 FROM public.negociospush_process WHERE \"ProcessNumber\" = $1";
 const process_insert = "INSERT INTO public.negociospush_process(\"EntityCode\", \"EntityName\", \"EntityNIT\", \"ProcessNumber\", " + 
@@ -33,15 +18,32 @@ const process_insert = "INSERT INTO public.negociospush_process(\"EntityCode\", 
                        "\"Description\", \"ContractType\", \"LoadDate\", \"SystemLoadDate\", \"Amount\", \"DefinitiveAmount\", \"ProcessStateName\")"+
                        " VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18);";
 const delete_old_processes = "DELETE FROM public.negociospush_process WHERE \"SystemLoadDate\" < now() - INTERVAL \'7 days\'";
-let values = [''];
 //console.log(delete_old_processes);
-console.log("limInfFecha = " + limInfFecha);
-console.log("limSupFecha = " + limSupFecha);
+
 // console.log(options);
 function main(){
 
 	console.log("checking api for new processes...");
+	var datetime = new Date();
+	const limSupFecha = datetime.getDate().toString().padStart(2, "0") + "-" + (datetime.getMonth()+1).toString().padStart(2, "0") + "-" + datetime.getFullYear();
+	datetime.setDate(datetime.getDate()-1);
+	const limInfFecha = datetime.getDate().toString().padStart(2, "0") + "-" + (datetime.getMonth()+1).toString().padStart(2, "0") + "-" + datetime.getFullYear();
+	const id_estado_proceso = '2';
+	console.log("limInfFecha = " + limInfFecha);
+	console.log("limSupFecha = " + limSupFecha);
 
+	const options = {
+		url: 'https://www.contratos.gov.co/administracion/api/Procesos/detalleProceso?limInfFecha=' + limInfFecha + '&limSupFecha=' + limSupFecha + '&id_estado_proceso='+id_estado_proceso+'&tamano=100',
+		method: 'GET',
+		headers: {
+			'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1NXMzckM0cnAzdDQifQ.Y_bn-wolLvuKcQ8yeH5jbUnsTO-OYc-PnhL3HYaoVwk',
+			'Content-Type': 'Application/json'
+		},
+		rejectUnauthorized: false
+	}
+	
+	let values = [''];
+	
 	request.get(options, function (error, response, body){
 		if(error){
 			throw error;
