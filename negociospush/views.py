@@ -5,7 +5,7 @@ from .models import Profile, Product, Process
 from .serializers import ProfileSerializer, ProductSerializer, ProcessSerializer
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
-
+from django.http import JsonResponse
 
 def index(request):
     return render(request, 'index.html')
@@ -14,11 +14,8 @@ def index(request):
 @csrf_protect
 def register(request):
     context = {}
-    print("register method")
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        print ("es met POST")
-        print(form.errors)
         if form.is_valid():
             print ("el formulario es valido")
             form.save()
@@ -48,6 +45,27 @@ def process(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+
+def codigosUNSPSC(request):
+    context = {}
+    if request.method == 'POST':
+        print('metodo post')
+    else:
+        segments = Product.objects.distinct('SegmentCode').values('SegmentCode', 'SegmentName')
+        print(segments)
+        context['segments'] = segments
+    return render(request, 'codigosUNSPSC.html', context)
+
+
+# def get_families(request, family_id):
+#
+#     JsonResponse({"ActividadId": actividad_model.pk,
+#                   "fecha": fecha,
+#                   "video": video,
+#                   "observaciones": observaciones,
+#                   "lugar": lugar})
+#     return HttpsResponse
 
 
 # Create your views here.

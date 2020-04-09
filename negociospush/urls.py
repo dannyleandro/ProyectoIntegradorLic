@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^register',  views.register, name='register'),
     url(r'^forgot-password',  views.forgotPassword, name='forgotPassword'),
     url(r'^process', views.process, name='process'),
+    url(r'^codigosUNSPSC', views.codigosUNSPSC, name='codigosUNSPSC')
 
 
 ]
