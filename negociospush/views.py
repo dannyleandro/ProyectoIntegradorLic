@@ -7,6 +7,7 @@ from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 
+
 def index(request):
     return render(request, 'index.html')
 
@@ -53,19 +54,24 @@ def codigosUNSPSC(request):
         print('metodo post')
     else:
         segments = Product.objects.distinct('SegmentCode').values('SegmentCode', 'SegmentName')
-        print(segments)
+        # print(segments)
         context['segments'] = segments
     return render(request, 'codigosUNSPSC.html', context)
 
 
-# def get_families(request, family_id):
-#
-#     JsonResponse({"ActividadId": actividad_model.pk,
-#                   "fecha": fecha,
-#                   "video": video,
-#                   "observaciones": observaciones,
-#                   "lugar": lugar})
-#     return HttpsResponse
+def get_families(request, segment_code):
+    families_list = list(Product.objects.filter(SegmentCode=segment_code).distinct('FamilyCode').values('FamilyCode', 'FamilyName'))
+    return JsonResponse(families_list, safe=False)
+
+
+def get_classes(request, family_code):
+    classes_list = list(Product.objects.filter(FamilyCode=family_code).distinct('ClassCode').values('ClassCode', 'ClassName'))
+    return JsonResponse(classes_list, safe=False)
+
+
+def get_products(request, class_code):
+    products_list = list(Product.objects.filter(ClassCode=class_code).values('ProductCode', 'ProductName'))
+    return JsonResponse(products_list, safe=False)
 
 
 # Create your views here.
