@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import generics
@@ -41,7 +42,15 @@ def forgotPassword(request):
 
 
 def process(request):
-    return render(request, './frontend/pages/mailbox/mailbox.html')
+    context = {}
+    all_processes = Process.objects.all()
+    paginator = Paginator(all_processes, 15)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context['page_obj'] = page_obj
+
+    return render(request, './frontend/pages/business/process.html',context)
 
 
 def dashboard(request):
