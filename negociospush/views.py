@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import generics
-from .models import Profile, Product, Process
+from .models import Profile, Product, Process, UserCode
 from .serializers import ProfileSerializer, ProductSerializer, ProcessSerializer
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
@@ -45,33 +45,71 @@ def process(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    context = {}
+    codes = UserCode.objects.filter(User=request.user).count()
+    processes = Process.objects.count()
+    context['codes'] = codes
+    context['processes'] = processes
+    return render(request, 'dashboard.html', context)
 
 
-def codigosUNSPSC(request):
+def codigos_unspsc(request):
     context = {}
     if request.method == 'POST':
-        print('metodo post')
-    else:
-        segments = Product.objects.distinct('SegmentCode').values('SegmentCode', 'SegmentName')
-        # print(segments)
-        context['segments'] = segments
+        chosen_codes = [int(item[1:]) for item in request.POST.getlist('chosen_codes')]
+        UserCode.objects.exclude(ProductCode_id__in=chosen_codes).delete()
+        for chosen_code in chosen_codes:
+            try:
+                product = Product.objects.get(pk=chosen_code)
+                if not UserCode.objects.filter(User=request.user, ProductCode_id=chosen_code).exists():
+                    code = UserCode.objects.create(ProductCode=product, User=request.user)
+                    code.save()
+            except product.DoesNotExist:
+                print('Product does not exist')
+    segments = Product.objects.distinct('SegmentCode').values('SegmentCode', 'SegmentName')
+    codes = UserCode.objects.filter(User=request.user)
+    context['segments'] = segments
+    code_template = []
+    for code in codes:
+        code_template.append(code.ProductCode.ProductCode)
+    context['codes'] = codes
+    context['code_template'] = code_template
     return render(request, 'codigosUNSPSC.html', context)
 
 
 def get_families(request, segment_code):
-    families_list = list(Product.objects.filter(SegmentCode=segment_code).distinct('FamilyCode').values('FamilyCode', 'FamilyName'))
-    return JsonResponse(families_list, safe=False)
+    families = Product.objects.filter(SegmentCode=segment_code).distinct('FamilyCode').values('FamilyCode', 'FamilyName')
+    result = []
+    for family in families:
+        result.append({
+            "id": 'F' + str(family['FamilyCode']),
+            "label": str(family['FamilyCode']) + ' - ' + family['FamilyName'],
+            "items": [{"label": "Loading..."}]
+        })
+    return JsonResponse(result, safe=False)
 
 
 def get_classes(request, family_code):
-    classes_list = list(Product.objects.filter(FamilyCode=family_code).distinct('ClassCode').values('ClassCode', 'ClassName'))
-    return JsonResponse(classes_list, safe=False)
+    classes = Product.objects.filter(FamilyCode=family_code).distinct('ClassCode').values('ClassCode', 'ClassName')
+    result = []
+    for classObject in classes:
+        result.append({
+            "id": 'C' + str(classObject['ClassCode']),
+            "label": str(classObject['ClassCode']) + ' - ' + classObject['ClassName'],
+            "items": [{"label": "Loading..."}]
+        })
+    return JsonResponse(result, safe=False)
 
 
 def get_products(request, class_code):
-    products_list = list(Product.objects.filter(ClassCode=class_code).values('ProductCode', 'ProductName'))
-    return JsonResponse(products_list, safe=False)
+    products = Product.objects.filter(ClassCode=class_code).values('ProductCode', 'ProductName')
+    result = []
+    for product in products:
+        result.append({
+            "id": 'P' + str(product['ProductCode']),
+            "label": str(product['ProductCode']) + ' - ' + product['ProductName']
+        })
+    return JsonResponse(result, safe=False)
 
 
 # Create your views here.

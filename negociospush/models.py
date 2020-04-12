@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime 
+from datetime import datetime
 
-# Create your models here.
+
 class Product (models.Model):
     SegmentCode = models.IntegerField()
     SegmentName = models.CharField(max_length=255)
@@ -12,6 +12,12 @@ class Product (models.Model):
     ClassName = models.CharField(max_length=255)
     ProductCode = models.IntegerField(primary_key=True)
     ProductName = models.CharField(max_length=255)
+
+
+class UserCode(models.Model):
+    IdCode = models.AutoField(primary_key=True),
+    ProductCode = models.ForeignKey(Product, on_delete=models.CASCADE)
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Profile(models.Model):
