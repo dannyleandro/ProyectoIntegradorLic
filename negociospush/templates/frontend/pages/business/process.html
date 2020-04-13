@@ -27,40 +27,76 @@
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Entidad</h3>
-
+            <h3 class="card-title">Filtros</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
               </button>
             </div>
           </div>
-          <div class="card-body p-0">
+
+          <!-- card-body -->
+          <div class="card-body">
+            <form role="form" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Palabras Clave</label>
+                    <input type="text" class="form-control" placeholder="Digite ..." name="words" id="idWords" value="{{ filter_words }}">
+                  </div>
+
+                   <div class="form-group">
+                  <label>Fechas de Procesos:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="far fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="reservation" name="reservation" value="{{ filter_date }}">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+
+
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                   <button class="btn btn-primary btn-lg btn-block" type="submit">Buscar</button>
+                </div>
+              </div>
+
+            </form>
+
+
+          </div>
+
+        </div>
+
+        <!-- /.card Filtro Rapidos-->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Filtros Rápidos</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+
             <ul class="nav nav-pills flex-column">
-              <li class="nav-item active">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-inbox"></i> Inbox
-                  <span class="badge bg-primary float-right">12</span>
+              <li class="nav-item">
+                <a href="?filter=today" class="nav-link">
+                  <i class="far fa-circle text-danger"></i>
+                  Procesos dia de Hoy
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-envelope"></i> Sent
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-file-alt"></i> Drafts
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-filter"></i> Junk
-                  <span class="badge bg-warning float-right">65</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-trash-alt"></i> Trash
+                <a href="?filter=lastweek" class="nav-link">
+                  <i class="far fa-circle text-warning"></i> Procesos Ultima Semana
                 </a>
               </li>
             </ul>
@@ -68,79 +104,15 @@
           <!-- /.card-body -->
         </div>
         <!-- /.card -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Tipo</h3>
 
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-body p-0">
-            <ul class="nav nav-pills flex-column">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle text-danger"></i>
-                  Important
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle text-warning"></i> Promotions
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle text-primary"></i>
-                  Social
-                </a>
-              </li>
-            </ul>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Fechas</h3>
 
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-body p-0">
-            <ul class="nav nav-pills flex-column">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle text-danger"></i>
-                  Important
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle text-warning"></i> Promotions
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle text-primary"></i>
-                  Social
-                </a>
-              </li>
-            </ul>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <a href="compose.html" class="btn btn-primary btn-block mb-3">Buscar</a>
       </div>
       <!-- /.col -->
       <div class="col-md-9">
         <div class="card card-primary card-outline">
           <div class="card-header">
             <h3 class="card-title">Resultado de Busqueda</h3>
-            <div class="card-tools">
+            {% comment %}<div class="card-tools">
               <div class="input-group input-group-sm">
                 <input type="text" class="form-control" placeholder="Buscar #Proceso">
                 <div class="input-group-append">
@@ -149,7 +121,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>{% endcomment %}
             <!-- /.card-tools -->
           </div>
           <!-- /.card-header -->
@@ -163,10 +135,10 @@
 
                   {% if page_obj.has_previous %}
 
-                    <button type="button" class="btn btn-default btn-sm" onclick="window.location='?page=1'"><i
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location='?page=1&filter={{ quick_filter }}'"><i
                             class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn btn-default btn-sm"
-                            onclick="window.location='?page={{ page_obj.previous_page_number }}'"><i
+                            onclick="window.location='?page={{ page_obj.previous_page_number }}&filter={{ quick_filter }}'"><i
                             class="fas fa-chevron-left"></i></button>
 
 
@@ -176,10 +148,10 @@
                   {% if page_obj.has_next %}
 
                     <button type="button" class="btn btn-default btn-sm"
-                            onclick="window.location='?page={{ page_obj.next_page_number }}'"><i
+                            onclick="window.location='?page={{ page_obj.next_page_number }}&filter={{ quick_filter }}'"><i
                             class="fas fa-chevron-right"></i></button>
                     <button type="button" class="btn btn-default btn-sm"
-                            onclick="window.location='?page={{ page_obj.paginator.num_pages }}'"><i
+                            onclick="window.location='?page={{ page_obj.paginator.num_pages }}&filter={{ quick_filter }}'"><i
                             class="fas fa-angle-double-right"></i></button>
 
 
@@ -198,7 +170,7 @@
                   <th>#</th>
                   <th>ID Proceso</th>
                   <th>Entidad</th>
-                  <th>Nit Entidad</th>
+                  <th>Nit</th>
                   <th>Lugar</th>
                   <th>Descripción</th>
                   <th>Fecha Incripción</th>
@@ -209,14 +181,14 @@
                 <tbody>
                 {% for process in page_obj %}
                   <tr>
-                    <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
-                    <td class="mailbox-name">{{ process.ProcessNumber }}</td>
-                    <td class="mailbox-name">{{ process.EntityName|upper }}</td>
-                    <td class="mailbox-subject">{{ process.EntityNIT }}</td>
-                    <td class="mailbox-attachment">{{ process.ExecutionCity }}</td>
+                    <td class="mailbox-star"><a href="#"><i class="fas fa-star-o"></i></a></td>
+                    <td>{{ process.ProcessNumber }}</td>
+                    <td>{{ process.EntityName|upper }}</td>
+                    <td>{{ process.EntityNIT }}</td>
+                    <td>{{ process.ExecutionCity }}</td>
                     <td>{{ process.Description }}</td>
-                    <td class="mailbox-date">{{ process.LoadDate }}</td>
-                    <td class="mailbox-date">{{ process.SystemLoadDate }}</td>
+                    <td>{{ process.LoadDate }}</td>
+                    <td>{{ process.SystemLoadDate }}</td>
                     <td>{{ process.Amount }}</td>
                   </tr>
                 {% endfor %}
@@ -229,34 +201,33 @@
           <!-- /.card-body -->
           <div class="card-footer p-0">
             <div class="mailbox-controls">
+              <!-- Check all button -->
               Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
               <div class="float-right">
+
                 <div class="btn-group">
 
                   {% if page_obj.has_previous %}
 
-                    <button type="button" class="btn btn-default btn-sm" onclick="window.location='?page=1'"><i
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location='?page=1&filter={{ quick_filter }}'"><i
                             class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn btn-default btn-sm"
-                            onclick="window.location='?page={{ page_obj.previous_page_number }}'"><i
+                            onclick="window.location='?page={{ page_obj.previous_page_number }}&filter={{ quick_filter }}'"><i
                             class="fas fa-chevron-left"></i></button>
 
-                    {% comment %} <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>{% endcomment %}
+
 
                   {% endif %}
 
                   {% if page_obj.has_next %}
 
                     <button type="button" class="btn btn-default btn-sm"
-                            onclick="window.location='?page={{ page_obj.next_page_number }}'"><i
+                            onclick="window.location='?page={{ page_obj.next_page_number }}&filter={{ quick_filter }}'"><i
                             class="fas fa-chevron-right"></i></button>
                     <button type="button" class="btn btn-default btn-sm"
-                            onclick="window.location='?page={{ page_obj.paginator.num_pages }}'"><i
+                            onclick="window.location='?page={{ page_obj.paginator.num_pages }}&filter={{ quick_filter }}'"><i
                             class="fas fa-angle-double-right"></i></button>
 
-                    {% comment %} <a href="?page={{ page_obj.next_page_number }}"  class="btn btn-default btn-sm"></a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}"  class="btn btn-default btn-sm">last &raquo;</a>{% endcomment %}
 
                   {% endif %}
 
@@ -281,6 +252,8 @@
   <script>
     $(function () {
 
+      $('#reservation').daterangepicker()
+
       //Handle starring for glyphicon and font awesome
       $('.mailbox-star').click(function (e) {
         e.preventDefault()
@@ -299,6 +272,7 @@
           $this.toggleClass('fa-star')
           $this.toggleClass('fa-star-o')
         }
+
       })
     })
 

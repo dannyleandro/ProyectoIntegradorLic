@@ -1,3 +1,6 @@
+import datetime
+from datetime import date
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
@@ -7,6 +10,8 @@ from .serializers import ProfileSerializer, ProductSerializer, ProcessSerializer
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
+from datetime import datetime, timedelta
+from django.core import serializers
 
 
 def index(request):
@@ -19,7 +24,7 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            print ("el formulario es valido")
+            print("el formulario es valido")
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
@@ -42,15 +47,64 @@ def forgotPassword(request):
 
 
 def process(request):
+    global all_processes
     context = {}
-    all_processes = Process.objects.all()
-    paginator = Paginator(all_processes, 15)
 
+    if request.method == "GET":
+        quick_filter = request.GET.get('filter')
+        print(quick_filter)
+        if quick_filter is not None:
+            if quick_filter == 'today':
+                all_processes = Process.objects.filter(LoadDate=date.today())
+            elif quick_filter == 'lastweek':
+                start_date = date.today() - timedelta(days=7)
+                end_date = date.today()
+                all_processes = Process.objects.filter(LoadDate__range=(start_date, end_date))
+            elif quick_filter == 'post':
+                request_post = request.session['request_post']
+                filter_words = request_post.get('words')
+                filter_date = request_post.get('reservation')
+                context['filter_words'] = filter_words
+                context['filter_date'] = filter_date
+                all_processes = get_post_query(filter_words, filter_date)
+            else:
+                all_processes = Process.objects.all()
+            context['quick_filter'] = quick_filter
+        else:
+            all_processes = Process.objects.all()
+    elif request.method == "POST":
+        filter_words = request.POST.get('words')
+        filter_date = request.POST.get('reservation')
+        context['filter_words'] = filter_words
+        context['filter_date'] = filter_date
+        all_processes = get_post_query(filter_words, filter_date)
+        request.session['request_post'] = request.POST
+        context['quick_filter'] = 'post'
+
+    paginator = Paginator(all_processes, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context['page_obj'] = page_obj
 
-    return render(request, './frontend/pages/business/process.html',context)
+    return render(request, './frontend/pages/business/process.html', context)
+
+
+def get_post_query(filter_words, filter_date):
+    if filter_words is not None and filter_date is not None:
+        filter_date_split = filter_date.split('-')
+        processes = Process.objects.filter(Description__contains=filter_words.upper(), LoadDate__range=(
+            datetime.strptime(filter_date_split[0].strip(), "%m/%d/%Y").date(),
+            datetime.strptime(filter_date_split[1].strip(), "%m/%d/%Y").date()))
+    elif filter_words is not None and filter_date is None:
+        processes = Process.objects.filter(Description__contains=filter_words.upper())
+    elif filter_date is not None and filter_words is None:
+        filter_date_split = filter_date.split('-')
+        processes = Process.objects.filter(LoadDate__range=(
+            datetime.strptime(filter_date_split[0].strip(), "%m/%d/%Y").date(),
+            datetime.strptime(filter_date_split[1].strip(), "%m/%d/%Y").date()))
+    else:
+        processes = Process.objects.all()
+    return processes
 
 
 def dashboard(request):
@@ -87,7 +141,8 @@ def codigos_unspsc(request):
 
 
 def get_families(request, segment_code):
-    families = Product.objects.filter(SegmentCode=segment_code).distinct('FamilyCode').values('FamilyCode', 'FamilyName')
+    families = Product.objects.filter(SegmentCode=segment_code).distinct('FamilyCode').values('FamilyCode',
+                                                                                              'FamilyName')
     result = []
     for family in families:
         result.append({
