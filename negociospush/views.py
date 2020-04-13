@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import generics
-from .models import Profile, Product, Process, UserCode
+from .models import Profile, Product, Process, UserCode, Notification, NotificationProcesses
 from .serializers import ProfileSerializer, ProductSerializer, ProcessSerializer
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
@@ -48,6 +48,8 @@ def dashboard(request):
     context = {}
     codes = UserCode.objects.filter(User=request.user).count()
     processes = Process.objects.count()
+    notifications = Notification.objects.filter(recipient=request.user)
+    context['notifications'] = notifications
     context['codes'] = codes
     context['processes'] = processes
     return render(request, 'dashboard.html', context)

@@ -33,7 +33,7 @@ class Process (models.Model):
     IdProcess = models.AutoField(primary_key=True)
     EntityCode = models.IntegerField(null=True)
     EntityName = models.CharField(max_length=255, null=True)
-    EntityNIT = models.CharField(max_length=15, null=True)
+    EntityNIT = models.CharField(max_length=255, null=True)
     ProcessNumber = models.CharField(max_length=15)
     ProcessState = models.IntegerField(null=True)
     ProcessStateName = models.CharField(max_length=255, null=True)
@@ -49,3 +49,17 @@ class Process (models.Model):
     SystemLoadDate = models.DateTimeField(default=datetime.now)
     Amount = models.DecimalField(max_digits=20, decimal_places=2, default=0.0, null=True)
     DefinitiveAmount = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    read = models.BooleanField(default=False)
+    sent = models.BooleanField(default=False)
+    SystemLoadDate = models.DateTimeField(default=datetime.now)
+
+
+class NotificationProcesses(models.Model):
+    parent = models.ForeignKey(Notification, on_delete=models.CASCADE)
+    process = models.ForeignKey(Process, on_delete=models.CASCADE)
+    SystemLoadDate = models.DateTimeField(default=datetime.now)

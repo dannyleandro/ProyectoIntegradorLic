@@ -127,25 +127,17 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">3</span>
+          <span class="badge badge-warning navbar-badge">{{notifications|length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">3 Notificaciones</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 Procesos Comida
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 Procesos Tecno
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 Procesos Impresoras
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
+          <span class="dropdown-item dropdown-header">{{notifications|length}} Notificaciones</span>
+          {% for notif in notifications %}
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2 text-wrap">{{ notif.message }}</i>
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+          {% endfor %}
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">Ver Todas las Notificaciones</a>
         </div>

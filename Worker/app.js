@@ -17,7 +17,8 @@ const process_insert = "INSERT INTO public.negociospush_process(\"EntityCode\", 
                        "\"ProcessState\", \"ExecutionCity\", \"IdProcessType\", \"ProcessTypeName\", \"SegmentCode\", \"FamilyCode\", \"ClassCode\", " + 
                        "\"Description\", \"ContractType\", \"LoadDate\", \"SystemLoadDate\", \"Amount\", \"DefinitiveAmount\", \"ProcessStateName\")"+
                        " VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18);";
-const delete_old_processes = "DELETE FROM public.negociospush_process WHERE \"SystemLoadDate\" < now() - INTERVAL \'7 days\'";
+const delete_old_processes = "DELETE FROM public.negociospush_process WHERE \"SystemLoadDate\" < now() - INTERVAL \'30 days\'";
+
 //console.log(delete_old_processes);
 
 // console.log(options);
