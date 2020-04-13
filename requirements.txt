@@ -35,3 +35,8 @@ easy-thumbnails==2.7
 psycopg2==2.8.4
 apscheduler==3.6.3
 tzlocal==2.0.0
+boto3==1.12.39
+botocore==1.15.39
+docutils==0.15.2
+jmespath==0.9.5
+s3transfer==0.3.3
