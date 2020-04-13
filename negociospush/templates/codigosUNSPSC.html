@@ -1,0 +1,182 @@
+{% extends 'frontend/pages/layout/base.html' %}
+{% load static %}
+{% block extra_head %}
+    <!-- Specific template css here -->
+    <link href="{% static 'plugins/jqwidgets/styles/jqx.base.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block body %}
+    <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Personalización de códigos UNSPSC</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active">codigosUNSPSC</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+    <div class="container-fluid">
+        <div class="row justify-content-around">
+            <div class="col-lg-4">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Códigos elegidos</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="" name="form1" onsubmit="return required()">
+                            {% csrf_token %}
+                            <ul id="selectedCodes" class="list-group list-group-flush">
+                                {% for code in codes %}
+                                    <li id="ChkdP{{ code.ProductCode.ProductCode }}" class="list-group-item" name="chosen_codes"> {{ code.ProductCode.ProductCode }} - {{ code.ProductCode.ProductName }}<input type="hidden" name="chosen_codes"  value="P{{ code.ProductCode.ProductCode }}"/></li>
+                                {% endfor %}
+                            </ul>
+                            <br/>
+                            <input class="btn btn-primary" type="submit" value="Guardar">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Seleccione los códigos UNSPSC asociados a su actividad económica</h3>
+                        <div class="card-tools">
+                          <div class="input-group input-group-sm">
+                            <input id="searchbox" type="text" class="form-control" placeholder="Buscar código" autocomplete="off">
+                            <div class="input-group-append">
+                              <div class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <div class="card-body p-0">
+                        <div id="jqxTree">
+                            <ul id="codeTree">
+                            {%  for segment in segments %}
+                                <li id="S{{ segment.SegmentCode }}" class="text-wrap">
+                                    {{ segment.SegmentCode }} - {{ segment.SegmentName }}
+                                    <ul>
+                                        <li>Loading...</li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxcore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxbuttons.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxscrollbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxpanel.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxtree.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxexpander.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxcheckbox.js' %}"></script>
+    <script type="text/javascript">
+        var tree = $('#jqxTree');
+        $(document).ready(function () {
+            // Create jqxTree
+
+            var source = null;
+            // create jqxTree
+            tree.jqxTree({checkboxes: true});
+            // language=JQuery-CSS
+            let liElements = $("li[id*='S'], li[id*='F'], li[id*='C']").add($("div:contains('Loading...')").parents("li"));
+            liElements.children("div[class*='chkbox']").css( "display", "none" );
+            liElements.children("div[class*='jqx-tree-item']").css( "margin-left", "0px");
+            tree.css('visibility', 'visible');
+            $('#jqxCheckBox').jqxCheckBox({ width: '200px', height: '25px', checked: true });
+            $('#jqxCheckBox').on('change', function (event) {
+                var checked = event.args.checked;
+                tree.jqxTree({ hasThreeStates: checked });
+            });
+        });
+        tree.on('expand', function (event) {
+            let $element = $(event.args.element);
+            let loader = false;
+            let loaderItem = null;
+            let children = $element.find('ul:first').children();
+            let url = '';
+            let elementId = $element[0].id;
+            let prefix = elementId.charAt(0);
+            if(prefix ==='S'){
+                url = '../FamiliesBySegment/' + elementId.slice(1);
+            }
+            else if(prefix==='F') {
+                url = '../ClassesByFamily/' + elementId.slice(1);
+            }
+            else if(prefix==='C'){
+                url = '../ProductsByClass/' + elementId.slice(1);
+            }
+            $.each(children, function () {
+                let child = tree.jqxTree('getItem', this);
+                if (child && child.label === 'Loading...') {
+                    loaderItem = child;
+                    loader = true;
+                    return false
+                }
+            });
+            if (loader) {
+                $.getJSON(url).done(function (data){
+                    tree.jqxTree('addTo', data, $element[0]);
+                    tree.jqxTree('removeItem', loaderItem.element);
+                    // language=JQuery-CSS
+                    let liElements = $("li[id*='S'], li[id*='F'], li[id*='C']").add($("div:contains('Loading...')").parents("li"));
+                    liElements.children("div[class*='chkbox']").css( "display", "none" );
+                    liElements.children("div[class*='jqx-tree-item']").css( "margin-left", "0px");
+                    let products = "{{code_template}}";
+                    products = products.replace(/\s/g, "").slice(1,-1).split(',');
+                    for(const product of products){
+                        tree.jqxTree('checkItem', $("#P"+product)[0], true);
+                    }
+                });
+            }
+        });
+        tree.on('checkChange', function (event) {
+           let args = event.args;
+           let element = args.element;
+           let checked = args.checked;
+           if(checked){
+               if(!$( "#Chkd"+ $(element)[0].id).length)
+                   $("#selectedCodes").append('<li id="Chkd' + $(element)[0].id + '" class="list-group-item" name="chosen_codes">' + $(element).text() + '<input type="hidden" name="chosen_codes"  value="'+ $(element)[0].id +'"/></li>');
+           }
+           else{
+               console.log('deselected item - ' + $(element)[0].id);
+               $("#Chkd"+$(element)[0].id).remove();
+           }
+       });
+    </script>
+    <script>
+        function required()
+        {
+            console.log($( "#selectedCodes" ).has( "li" ).length);
+            if(!$( "#selectedCodes" ).has( "li" ).length)
+            {
+                alert("No ha seleccionado ningún codigo");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("#searchbox").on("keyup", function() {
+                let value = $(this).val().toLowerCase();
+                $("#codeTree li").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+</script>
+{% endblock %}
