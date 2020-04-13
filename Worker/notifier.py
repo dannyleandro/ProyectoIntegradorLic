@@ -200,8 +200,8 @@ def sendEmail(RECIPIENT, BODY_TEXT, BODY_HTML):
 	# Create a new SES resource and specify a region.
 	client = boto3.client('ses',
 						region_name=AWS_REGION,
-					    aws_access_key_id='AKIAY4NSAMUYCVR3ZCML',
-    					aws_secret_access_key='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')
+					    aws_access_key_id=os.environ['SESKEYID'],
+    					aws_secret_access_key=os.environ['SESSECRETKEY'])
 	# Try to send the email.
 	try:
 		#Provide the contents of the email.
