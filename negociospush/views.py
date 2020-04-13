@@ -11,7 +11,6 @@ from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 from datetime import datetime, timedelta
-from django.core import serializers
 
 
 def index(request):
