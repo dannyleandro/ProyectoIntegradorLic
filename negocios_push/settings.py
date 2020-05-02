@@ -27,7 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 GOOGLE_ANALYTICS = {
-    'google_analytics_id': 'UA-165018272-1',
+    'google_analytics_id': 'UA-165381912-1',
 }
 
 # Application definition
