@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_auth',
-    'corsheaders'
+    'corsheaders',
+    'google_analytics'
 ]
 
 MIDDLEWARE = [
