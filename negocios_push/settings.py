@@ -26,6 +26,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+GOOGLE_ANALYTICS = {
+    'google_analytics_id': 'UA-165018272-1',
+}
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -2,9 +2,12 @@
 <!DOCTYPE html>
 <html lang="es">
 {% load static %}
-{% load analytics %}
 <head>
   <meta charset="utf-8">
+  <% load google_analytics_tags %>
+  <div style="display:none">
+  <img src="{% google_analytics %}" width='0', height='0'/>
+  </div>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Negocios Push | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
@@ -34,16 +37,6 @@
   <!-- jQuery UI 1.11.4 -->
   <script src="{% static 'plugins/jquery-ui/jquery-ui.js' %}"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165018272-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-165018272-1');
-  </script>
-
   {% block extra_head %}
   {% endblock %}
 </head>
