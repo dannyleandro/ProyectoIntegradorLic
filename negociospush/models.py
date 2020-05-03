@@ -63,3 +63,16 @@ class NotificationProcesses(models.Model):
     parent = models.ForeignKey(Notification, on_delete=models.CASCADE)
     process = models.ForeignKey(Process, on_delete=models.CASCADE)
     SystemLoadDate = models.DateTimeField(default=datetime.now)
+
+
+class EventTypes(models.Model):
+    IdType = models.AutoField(primary_key=True)
+    EventName = models.CharField(max_length=255)
+
+
+class Events(models.Model):
+    IdEvent = models.AutoField(primary_key=True)
+    EventType = models.ForeignKey(EventTypes, on_delete=models.CASCADE)
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    Data = models.TextField()
+    Timestamp = models.DateTimeField(default=datetime.now)
