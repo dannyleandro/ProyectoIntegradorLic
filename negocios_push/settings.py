@@ -26,6 +26,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+GOOGLE_ANALYTICS = {
+    'google_analytics_id': 'UA-165381912-1',
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_auth',
-    'corsheaders'
+    'corsheaders',
+    'google_analytics'
 ]
 
 MIDDLEWARE = [
