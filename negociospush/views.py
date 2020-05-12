@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 
 from enum import Enum
 
+
 class EVENTS(Enum):
     LOGIN = 1
     QUICK_FILTER = 2
@@ -22,6 +23,7 @@ class EVENTS(Enum):
     CUSTOM_FILTER = 5
     LOGOUT = 6
     FORGOT_PASSWD = 7
+
 
 def index(request):
     return render(request, 'index.html')
@@ -53,7 +55,7 @@ def logout(request):
     return redirect('index')
 
 
-def forgotPassword(request):
+def forgot_password(request):
     create_event(request, EVENTS.FORGOT_PASSWD)
     return render(request, './frontend/pages/examples/forgot-password.html')
 
@@ -193,13 +195,14 @@ def get_products(request, class_code):
         })
     return JsonResponse(result, safe=False)
 
-#Create event for metrics
-def create_event(request, idevtn):
-   evtType = EventTypes.objects.get(pk=idevtn.value)
-   evt =  Events(Data=request,User=request.user,EventType=evtType)
-   evt.save()
 
-#Create your views here.
+# Create event for metrics
+def create_event(request, idevtn):
+    evt_type = EventTypes.objects.get(pk=idevtn.value)
+    evt = Events(Data=request, User=request.user, EventType=evt_type)
+    evt.save()
+
+
 class ListProfiles(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer

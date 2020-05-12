@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^processes', views.ListProcesses.as_view()),
     url(r'^dashboard',  views.dashboard, name='dashboard'),
     url(r'^register',  views.register, name='register'),
-    url(r'^forgot-password',  views.forgotPassword, name='forgotPassword'),
+    url(r'^forgot-password',  views.forgot_password, name='forgotPassword'),
     url(r'^process', views.process, name='process'),
     url(r'^codigosUNSPSC', views.codigos_unspsc, name='codigosUNSPSC'),
     url(r'^FamiliesBySegment/(?P<segment_code>\d+)$', views.get_families, name='FamiliesBySegment'),

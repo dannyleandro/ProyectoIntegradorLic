@@ -76,3 +76,4 @@ class Events(models.Model):
     User = models.ForeignKey(User, on_delete=models.CASCADE)
     Data = models.TextField()
     Timestamp = models.DateTimeField(default=datetime.now)
+    SessionKey = models.TextField(null=True)
