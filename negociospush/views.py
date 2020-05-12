@@ -5,13 +5,23 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import generics
-from .models import Profile, Product, Process, UserCode, Notification, NotificationProcesses
+from .models import Profile, Product, Process, UserCode, Notification, NotificationProcesses,Events,EventTypes
 from .serializers import ProfileSerializer, ProductSerializer, ProcessSerializer
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 
+from enum import Enum
+
+class EVENTS(Enum):
+    LOGIN = 1
+    QUICK_FILTER = 2
+    PROCESS_FILTER = 3
+    REGISTER = 4
+    CUSTOM_FILTER = 5
+    LOGOUT = 6
+    FORGOT_PASSWD = 7
 
 def index(request):
     return render(request, 'index.html')
@@ -23,6 +33,7 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
+            create_event(request, EVENTS.REGISTER)
             print("el formulario es valido")
             form.save()
             username = form.cleaned_data.get('username')
@@ -37,11 +48,13 @@ def register(request):
 
 
 def logout(request):
+    create_event(request, EVENTS.LOGOUT)
     logout(request)
     return redirect('index')
 
 
 def forgotPassword(request):
+    create_event(request, EVENTS.FORGOT_PASSWD)
     return render(request, './frontend/pages/examples/forgot-password.html')
 
 
@@ -53,6 +66,7 @@ def process(request):
         quick_filter = request.GET.get('filter')
         print(quick_filter)
         if quick_filter is not None:
+            create_event(request, EVENTS.QUICK_FILTER)
             if quick_filter == 'today':
                 all_processes = Process.objects.filter(LoadDate=date.today())
             elif quick_filter == 'lastweek':
@@ -72,6 +86,7 @@ def process(request):
         else:
             all_processes = Process.objects.all()
     elif request.method == "POST":
+        create_event(request, EVENTS.PROCESS_FILTER)
         filter_words = request.POST.get('words')
         filter_date = request.POST.get('reservation')
         context['filter_words'] = filter_words
@@ -108,6 +123,7 @@ def get_post_query(filter_words, filter_date):
 
 def dashboard(request):
     context = {}
+    create_event(request, EVENTS.LOGIN)
     codes = UserCode.objects.filter(User=request.user).count()
     processes = Process.objects.count()
     notifications = Notification.objects.filter(recipient=request.user)
@@ -120,6 +136,7 @@ def dashboard(request):
 def codigos_unspsc(request):
     context = {}
     if request.method == 'POST':
+        create_event(request, EVENTS.CUSTOM_FILTER)
         chosen_codes = [int(item[1:]) for item in request.POST.getlist('chosen_codes')]
         UserCode.objects.exclude(ProductCode_id__in=chosen_codes).delete()
         for chosen_code in chosen_codes:
@@ -176,8 +193,13 @@ def get_products(request, class_code):
         })
     return JsonResponse(result, safe=False)
 
+#Create event for metrics
+def create_event(request, idevtn):
+   evtType = EventTypes.objects.get(pk=idevtn.value)
+   evt =  Events(Data=request,User=request.user,EventType=evtType)
+   evt.save()
 
-# Create your views here.
+#Create your views here.
 class ListProfiles(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -191,3 +213,4 @@ class ListProducts(generics.ListCreateAPIView):
 class ListProcesses(generics.ListCreateAPIView):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
+
