@@ -5,13 +5,13 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import generics
-from .models import Profile, Product, Process, UserCode, Notification, NotificationProcesses,Events,EventTypes
+from .models import Profile, Product, Process, UserCode, Notification, NotificationProcesses, Events, EventTypes, User
 from .serializers import ProfileSerializer, ProductSerializer, ProcessSerializer
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 from datetime import datetime, timedelta
-
+from django.contrib import auth, messages
 from enum import Enum
 
 
@@ -23,9 +23,12 @@ class EVENTS(Enum):
     CUSTOM_FILTER = 5
     LOGOUT = 6
     FORGOT_PASSWD = 7
+    LANDPAGE_VISIT = 8
+    REGISTER_VISIT = 9
 
 
 def index(request):
+    create_event(request, EVENTS.LANDPAGE_VISIT)
     return render(request, 'index.html')
 
 
@@ -44,14 +47,15 @@ def register(request):
             login(request, user)
             return redirect('index')
     else:
+        create_event(request, EVENTS.REGISTER_VISIT)
         form = RegistrationForm()
     context['form'] = form
     return render(request, 'registration/register.html', context)
 
 
-def logout(request):
+def logout(request, *args, **kwars):
     create_event(request, EVENTS.LOGOUT)
-    logout(request)
+    auth.logout(request)
     return redirect('index')
 
 
@@ -125,7 +129,8 @@ def get_post_query(filter_words, filter_date):
 
 def dashboard(request):
     context = {}
-    create_event(request, EVENTS.LOGIN)
+    if not request.GET.get('menu'):
+        create_event(request, EVENTS.LOGIN)
     codes = UserCode.objects.filter(User=request.user).count()
     processes = Process.objects.count()
     notifications = Notification.objects.filter(recipient=request.user)
@@ -199,7 +204,13 @@ def get_products(request, class_code):
 # Create event for metrics
 def create_event(request, idevtn):
     evt_type = EventTypes.objects.get(pk=idevtn.value)
-    evt = Events(Data=request, User=request.user, EventType=evt_type)
+    user_app = request.user
+    if user_app is None or user_app.is_anonymous:
+        users = User.objects.filter(username='anonimo')
+        for anonimoUser in users:
+            user_app = anonimoUser
+
+    evt = Events(Data=request, User=user_app, EventType=evt_type, SessionKey=request.session.session_key)
     evt.save()
 
 
@@ -216,4 +227,3 @@ class ListProducts(generics.ListCreateAPIView):
 class ListProcesses(generics.ListCreateAPIView):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
-
