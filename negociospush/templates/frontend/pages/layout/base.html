@@ -141,15 +141,15 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">{{notifications|length}}</span>
+          <span class="badge badge-warning navbar-badge">{{unread_notifications|length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">{{notifications|length}} Notificaciones</span>
           {% for notif in notifications %}
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2 text-wrap">{{ notif.message }}</i>
-              <span class="float-right text-muted text-sm">3 mins</span>
+            <a href="{% url 'notificationList' notif.id %}" class="dropdown-item">
+              <i class="fas {% if notif.read %}fa-envelope-open-text{% else %}fa-envelope{% endif %} mr-2 text-wrap">{{ notif.message }}</i>
+              <span class="float-right text-muted text-sm"></span>
             </a>
           {% endfor %}
           <div class="dropdown-divider"></div>
@@ -217,7 +217,7 @@
           </li>{% endcomment %}
 
           <li class="nav-item">
-            <a href="dashboard?menu=true" class="nav-link">
+            <a href="{% url 'dashboard' %}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -241,7 +241,7 @@
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Filtros UNSPSC
-                <span class="right badge badge-danger">{{ codes }}</span>
+                <span class="right badge badge-danger">{{ codes|length }}</span>
               </p>
             </a>
           </li>

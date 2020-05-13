@@ -1,0 +1,191 @@
+{% extends 'frontend/pages/layout/base.html' %}
+{% block body %}
+  {% load static %}
+  <script src="{% static 'dist/js/pages/functions.js' %}"></script>
+
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Procesos relacionados con la notificación</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active">Procesos en notificación</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- /.col -->
+      <div class="row-fluid">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">Procesos recién convocados</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <div class="mailbox-controls">
+              <!-- Check all button -->
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+              <div class="float-right">
+
+                <div class="btn-group">
+
+                  {% if page_obj.has_previous %}
+
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location='?page=1&filter={{ quick_filter }}'"><i
+                            class="fas fa-angle-double-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="window.location='?page={{ page_obj.previous_page_number }}&filter={{ quick_filter }}'"><i
+                            class="fas fa-chevron-left"></i></button>
+
+
+
+                  {% endif %}
+
+                  {% if page_obj.has_next %}
+
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="window.location='?page={{ page_obj.next_page_number }}&filter={{ quick_filter }}'"><i
+                            class="fas fa-chevron-right"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="window.location='?page={{ page_obj.paginator.num_pages }}&filter={{ quick_filter }}'"><i
+                            class="fas fa-angle-double-right"></i></button>
+
+
+                  {% endif %}
+
+                </div>
+                <!-- /.btn-group -->
+              </div>
+              <!-- /.float-right -->
+            </div>
+            <div class="table-responsive mailbox-messages">
+              <table class="table table-hover table-striped">
+
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>ID Proceso</th>
+                  <th>Entidad</th>
+                  <th>Nit</th>
+                  <th>Lugar</th>
+                  <th>Descripción</th>
+                  <th>Fecha Incripción</th>
+                  <th>Fecha Sistema</th>
+                  <th>Monto</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for process in page_obj %}
+                  <tr>
+                    <td class="mailbox-star"><a href="#"><i class="fas fa-star-o"></i></a></td>
+                    <td>{{ process.ProcessNumber }}</td>
+                    <td>{{ process.EntityName|upper }}</td>
+                    <td>{{ process.EntityNIT }}</td>
+                    <td>{{ process.ExecutionCity }}</td>
+                    <td>{{ process.Description }}</td>
+                    <td>{{ process.LoadDate }}</td>
+                    <td>{{ process.SystemLoadDate }}</td>
+                    <td>{{ process.Amount }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <!-- /.table -->
+            </div>
+            <!-- /.mail-box-messages -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer p-0">
+            <div class="mailbox-controls">
+              <!-- Check all button -->
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+              <div class="float-right">
+
+                <div class="btn-group">
+
+                  {% if page_obj.has_previous %}
+
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location='?page=1&filter={{ quick_filter }}'"><i
+                            class="fas fa-angle-double-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="window.location='?page={{ page_obj.previous_page_number }}&filter={{ quick_filter }}'"><i
+                            class="fas fa-chevron-left"></i></button>
+
+
+
+                  {% endif %}
+
+                  {% if page_obj.has_next %}
+
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="window.location='?page={{ page_obj.next_page_number }}&filter={{ quick_filter }}'"><i
+                            class="fas fa-chevron-right"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="window.location='?page={{ page_obj.paginator.num_pages }}&filter={{ quick_filter }}'"><i
+                            class="fas fa-angle-double-right"></i></button>
+
+
+                  {% endif %}
+
+                </div>
+                <!-- /.btn-group -->
+              </div>
+              <!-- /.float-right -->
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+
+  <!-- ./wrapper -->
+
+
+  <script>
+    $(function () {
+
+      $('#reservation').daterangepicker()
+
+      //Handle starring for glyphicon and font awesome
+      $('.mailbox-star').click(function (e) {
+        e.preventDefault()
+        //detect type
+        var $this = $(this).find('a > i')
+        var glyph = $this.hasClass('glyphicon')
+        var fa = $this.hasClass('fa')
+
+        //Switch states
+        if (glyph) {
+          $this.toggleClass('glyphicon-star')
+          $this.toggleClass('glyphicon-star-empty')
+        }
+
+        if (fa) {
+          $this.toggleClass('fa-star')
+          $this.toggleClass('fa-star-o')
+        }
+
+      })
+    })
+
+
+  </script>
+
+
+
+{% endblock %}
+<!-- Page Script -->
+
+

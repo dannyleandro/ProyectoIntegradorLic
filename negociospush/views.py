@@ -135,6 +135,7 @@ def dashboard(request):
     processes = Process.objects.count()
     notifications = Notification.objects.filter(recipient=request.user)
     context['notifications'] = notifications
+    context['unread_notifications'] = Notification.objects.filter(recipient=request.user, read=False)
     context['codes'] = codes
     context['processes'] = processes
     return render(request, 'dashboard.html', context)
@@ -212,6 +213,18 @@ def create_event(request, idevtn):
 
     evt = Events(Data=request, User=user_app, EventType=evt_type, SessionKey=request.session.session_key)
     evt.save()
+
+
+def notification_list(request, notification_code):
+    Notification.objects.filter(id=notification_code).update(read=True)
+    notification_processes_ids = NotificationProcesses.objects.filter(parent_id=notification_code).values('process_id')
+    notification_processes = Process.objects.filter(IdProcess__in=notification_processes_ids)
+    context = {}
+    paginator = Paginator(notification_processes, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context['page_obj'] = page_obj
+    return render(request, 'notificationList.html', context)
 
 
 class ListProfiles(generics.ListCreateAPIView):

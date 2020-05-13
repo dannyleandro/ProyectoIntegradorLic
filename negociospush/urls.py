@@ -7,7 +7,6 @@ urlpatterns = [
     url(r'^index.html$', views.index, name='index'),
     path('rest-auth/', include('rest_auth.urls')),
     url(r'^login', auth_views.LoginView.as_view(), name='login'),
-    #url(r'^logout', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^$', views.index, name='index'),
     url(r'^profiles', views.ListProfiles.as_view()),
@@ -20,5 +19,6 @@ urlpatterns = [
     url(r'^codigosUNSPSC', views.codigos_unspsc, name='codigosUNSPSC'),
     url(r'^FamiliesBySegment/(?P<segment_code>\d+)$', views.get_families, name='FamiliesBySegment'),
     url(r'^ClassesByFamily/(?P<family_code>\d+)$', views.get_classes, name='ClassesByFamily'),
-    url(r'^ProductsByClass/(?P<class_code>\d+)$', views.get_products, name='ProductsByClass')
+    url(r'^ProductsByClass/(?P<class_code>\d+)$', views.get_products, name='ProductsByClass'),
+    url(r'^notificationList/(?P<notification_code>\d+)$', views.notification_list, name='notificationList')
 ]

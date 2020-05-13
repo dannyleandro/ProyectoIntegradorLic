@@ -1,9 +1,8 @@
-import os  # sys
+import os
 import psycopg2
-# from apscheduler.schedulers.blocking import BlockingScheduler
+import boto3
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
-import boto3
 from botocore.exceptions import ClientError
 from apscheduler.schedulers.blocking import BlockingScheduler
 
@@ -17,7 +16,7 @@ def crear_notificaciones():
         cur = connection.cursor(cursor_factory=RealDictCursor)
         query_codes = """
                     SELECT "IdProcess", "ClassCode" FROM public.negociospush_process
-                    WHERE "SystemLoadDate" > now() - INTERVAL '1 day' limit 10
+                    WHERE "SystemLoadDate" > now() - INTERVAL '1 day'
                     """
         print('select negociospush_process')
         cur.execute(query_codes)
@@ -25,17 +24,15 @@ def crear_notificaciones():
         print(cur.rowcount)
         for row in query_results:
             id_process = row['IdProcess']
-            lower_product_code = int(row['ClassCode']) * 100
-            upper_product_code = (int(row['ClassCode']) + 1) * 100
             query = """
-                    SELECT "ProductCode_id", "User_id" FROM public.negociospush_usercode 
-                    WHERE "ProductCode_id">=%s and "ProductCode_id"<%s;
+                    SELECT DISTINCT "ProductCode_id"/100 as "ClassCode_id", "User_id" FROM public.negociospush_usercode
+                    WHERE "ProductCode_id"/100 = %s;
                     """
-            print('select negociospush_usercode')
-            cur.execute(query, (lower_product_code, upper_product_code))
+            # print('select negociospush_usercode')
+            cur.execute(query, (int(row['ClassCode']),))
             codes = cur.fetchall()
             # print(codes)
-            print(cur.rowcount)
+            # print(cur.rowcount)
             for code in codes:
                 user_id = int(code['User_id'])
                 # Se crean las notificaciones en BD
@@ -44,22 +41,24 @@ def crear_notificaciones():
                                     FROM public.negociospush_notification WHERE NOT sent AND recipient_id = %s ORDER BY 
                                     id DESC;
                                     """
-                print('select negociospush_notification')
+                # print('select negociospush_notification user', user_id)
                 cur.execute(query_notifications, (user_id,))
-                if cur.fetchone() is None:
+                # print('afterExcecute rowcount', cur.rowcount)
+                notifs = cur.fetchall()
+                if cur.rowcount == 0:
                     insert_notifications_query = """
                                                 INSERT INTO public.negociospush_notification(
                                                 message, read, sent, "SystemLoadDate", recipient_id)
                                                 VALUES (%s, %s, %s, %s, %s) RETURNING id;
                                                 """
                     dt = datetime.now()
-                    print('Insert negociospush_notification')
+                    # print('Insert negociospush_notification')
                     cur.execute(insert_notifications_query, (
                         "Tienes procesos relacionados a tu actividad económica que fueron convocados recientemente",
                         False,
                         False, dt, user_id))
-                notifs = cur.fetchall()
-                print(cur.rowcount)
+                    notifs = cur.fetchall()
+                # print(cur.rowcount)
                 dt = datetime.now()
                 notification_id = ""
                 for notif in notifs:
@@ -69,7 +68,7 @@ def crear_notificaciones():
                                                     "SystemLoadDate", parent_id, process_id)
                                                     VALUES (%s, %s, %s);
                                                     """
-                print('Insert negociospush_notificationprocesses')
+                # print('Insert negociospush_notificationprocesses')
                 cur.execute(insert_notifications_detail_query, (dt, notification_id, id_process))
         connection.commit()
         cur.close()
@@ -84,11 +83,11 @@ def crear_notificaciones():
 
 
 def enviar_correos():
-    print('Inicia')
+    # print('Inicia')
     try:
         connection = psycopg2.connect(host=os.environ['HOSTDB'], port=os.environ['PORTDB'],
-                                      database=os.environ['NAMEDB'],
-                                      user=os.environ['USERDB'], password=os.environ['PASSDB'])
+                                      database=os.environ['NAMEDB'], user=os.environ['USERDB'],
+                                      password=os.environ['PASSDB'])
         cur = connection.cursor(cursor_factory=RealDictCursor)
         query_notifications = """
                     SELECT n.id, n.message, u.first_name, u.last_name, u.email
@@ -96,13 +95,13 @@ def enviar_correos():
                     INNER JOIN public.auth_user u on n.recipient_id = u.id 
                     WHERE NOT sent;
                     """
-        print('select negociospush_notification')
+        # print('select negociospush_notification')
         cur.execute(query_notifications)
         notifications = cur.fetchall()
         for notif in notifications:
             recip = notif['email']
             mess = notif['message']
-            name = notif['first_name'] + ' ' + notif['first_name']
+            name = notif['first_name'] + ' ' + notif['last_name']
             notification_id = notif['id']
             query_notifications_processes = """
                     SELECT p."EntityName", p."ProcessNumber", p."ExecutionCity", p."Description", p."Amount" 
@@ -113,7 +112,7 @@ def enviar_correos():
             cur.execute(query_notifications_processes, (notification_id,))
             notif_proc = cur.fetchall()
             text_processes = ""
-            html_processes = "<br/><br/><ul>"
+            html_processes = "<ul style=\"list-style: none;\">"
             for notproc in notif_proc:
                 entity = notproc['EntityName']
                 process_number = notproc['ProcessNumber']
@@ -121,12 +120,15 @@ def enviar_correos():
                 description = notproc['Description']
                 amount = str(notproc['Amount'])
                 html_processes += f"""
-                                <br/>
-                                <li>Número del proceso {process_number}</li>
-                                <li>Convocado por la entidad {entity}</li>
-                                <li>A ser ejecutado en {cities}</li>
-                                <li>{description}</li>
-                                <li>Cuantía {amount}</li>
+                                <li>
+                                    <ul style="list-style: none;">
+                                        <li>Número del proceso {process_number}</li>
+                                        <li>Convocado por la entidad {entity}</li>
+                                        <li>A ser ejecutado en {cities}</li>
+                                        <li>{description}</li>
+                                        <li>Cuantía {amount}</li>
+                                    </ul>
+                                </li>
                                 <br/>
                                 """
                 text_processes += f"""
@@ -136,13 +138,14 @@ def enviar_correos():
                                 {description} \r\n
                                 Cuantía {amount} \r\n
                                 \r\n
-                                \r\n
                                 """
-            html_processes += "</ul><br/><br/>"
+            html_processes += "<li>Entre otros más...</li></ul>"
             body_text = (f""" Estimad@ {name} \r\n
                         {mess} \r\n
                         {text_processes} \r\n
-                        Ingresa a nuestra pagina para más información. \r\n \r\n
+                        Entre otros más... \r\n
+                        Ingresa a nuestra pagina para más información. Utilizando este enlace 
+                        http://ec2-3-88-210-160.compute-1.amazonaws.com \r\n \r\n
                         Este correo es generado automaticamente con Amazon SES
                         """
                          )
@@ -151,16 +154,23 @@ def enviar_correos():
             body_html = f"""<html>
                             <head></head>
                             <body>
-                                <h2>Estimad@ {name}</h2>
-                                <h3>{mess}</h3>
+                                <h3>Estimad@ {name}</h3>
+                                <p>{mess}</p>
                                 {html_processes}
-                                <h3>Ingresa a nuestra pagina para más información</h3>
+                                <h4>Ingresa a nuestra <a href="http://ec2-3-88-210-160.compute-1.amazonaws.com/">página
+                                </a> para más información</h4>
                                 <p>Este correo es generado automaticamente
                                 <a href='https://aws.amazon.com/ses/'>Amazon SES</a></p>
                             </body>
                             </html>
                         """
             send_email(recip, body_text, body_html)
+            # Se crean las notificaciones en BD
+            query_update_sent = """
+                                UPDATE public.negociospush_notification SET sent=true
+                                WHERE id = %s;
+                                """
+            cur.execute(query_update_sent, (notification_id,))
         connection.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -174,10 +184,10 @@ def enviar_correos():
 
 
 def send_email(recipient, body_text, body_html):
-    print('Se envía correo a utilizando SES')
+    # print('Se envía correo a utilizando SES')
     # Replace sender@example.com with your "From" address.
     # This address must be verified with Amazon SES.
-    sender = "Negocios Push <dannylhurtado@gmail.com>"
+    sender = "Negocios Push <negociospush@gmail.com>"
 
     # If necessary, replace us-west-2 with the AWS Region you're using for Amazon SES.
     aws_region = "us-east-1"
@@ -219,8 +229,6 @@ def send_email(recipient, body_text, body_html):
                 },
             },
             Source=sender,
-            # If you are not using a configuration set, comment or delete the
-            # following line
         )
     # Display an error if something goes wrong.
     except ClientError as e:
@@ -230,11 +238,11 @@ def send_email(recipient, body_text, body_html):
         print(response['MessageId'])
 
 
-conn = psycopg2.connect(host="localhost", database="suppliers", user="postgres", password="postgres")
+# connection = psycopg2.connect(host="localhost", database="suppliers", user="postgres", password="postgres")
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('cron', hour=1, minute=30)
+@sched.scheduled_job('cron', hour=1, minute=21)
 def scheduled_job():
     print('Tarea programada diariamente a la 1:30am')
     crear_notificaciones()
