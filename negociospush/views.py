@@ -25,6 +25,7 @@ class EVENTS(Enum):
     FORGOT_PASSWD = 7
     LANDPAGE_VISIT = 8
     REGISTER_VISIT = 9
+    NOTIFICATION_LIST = 10
 
 
 def index(request):
@@ -224,6 +225,7 @@ def notification_list(request, notification_code):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context['page_obj'] = page_obj
+    create_event(request, EVENTS.NOTIFICATION_LIST)
     return render(request, 'notificationList.html', context)
 
 
