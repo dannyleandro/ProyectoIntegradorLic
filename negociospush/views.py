@@ -106,7 +106,11 @@ def process(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context['page_obj'] = page_obj
-
+    codes = UserCode.objects.filter(User=request.user).count()
+    context['codes_count'] = codes
+    notifications = Notification.objects.filter(recipient=request.user)
+    context['notifications'] = notifications
+    context['unread_notifications'] = Notification.objects.filter(recipient=request.user, read=False)
     return render(request, './frontend/pages/business/process.html', context)
 
 
@@ -137,7 +141,7 @@ def dashboard(request):
     notifications = Notification.objects.filter(recipient=request.user)
     context['notifications'] = notifications
     context['unread_notifications'] = Notification.objects.filter(recipient=request.user, read=False)
-    context['codes'] = codes
+    context['codes_count'] = codes
     context['processes'] = processes
     return render(request, 'dashboard.html', context)
 
@@ -147,7 +151,7 @@ def codigos_unspsc(request):
     if request.method == 'POST':
         create_event(request, EVENTS.CUSTOM_FILTER)
         chosen_codes = [int(item[1:]) for item in request.POST.getlist('chosen_codes')]
-        UserCode.objects.exclude(ProductCode_id__in=chosen_codes).delete()
+        UserCode.objects.filter(User=request.user).exclude(ProductCode_id__in=chosen_codes).delete()
         for chosen_code in chosen_codes:
             try:
                 product = Product.objects.get(pk=chosen_code)
@@ -164,6 +168,10 @@ def codigos_unspsc(request):
         code_template.append(code.ProductCode.ProductCode)
     context['codes'] = codes
     context['code_template'] = code_template
+    context['codes_count'] = codes.count()
+    notifications = Notification.objects.filter(recipient=request.user)
+    context['notifications'] = notifications
+    context['unread_notifications'] = Notification.objects.filter(recipient=request.user, read=False)
     return render(request, 'codigosUNSPSC.html', context)
 
 
@@ -225,6 +233,11 @@ def notification_list(request, notification_code):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context['page_obj'] = page_obj
+    codes = UserCode.objects.filter(User=request.user).count()
+    context['codes_count'] = codes
+    notifications = Notification.objects.filter(recipient=request.user)
+    context['notifications'] = notifications
+    context['unread_notifications'] = Notification.objects.filter(recipient=request.user, read=False)
     create_event(request, EVENTS.NOTIFICATION_LIST)
     return render(request, 'notificationList.html', context)
 

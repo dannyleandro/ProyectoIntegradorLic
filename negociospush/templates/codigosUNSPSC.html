@@ -30,13 +30,16 @@
                     <div class="card-body">
                         <form method="POST" action="" name="form1" onsubmit="return required()">
                             {% csrf_token %}
+                            <div class="alert alert-info" role="alert" id="infoNoCodes" {% if codes %}style="display:none;"{% endif %}>
+                                  No tienes notificaciones configuradas, selecciona uno o varios códigos del listado para recibir notificaciones de los procesos que se convocan todos los días.
+                            </div>
                             <ul id="selectedCodes" class="list-group list-group-flush">
                                 {% for code in codes %}
                                     <li id="ChkdP{{ code.ProductCode.ProductCode }}" class="list-group-item" name="chosen_codes"> {{ code.ProductCode.ProductCode }} - {{ code.ProductCode.ProductName }}<input type="hidden" name="chosen_codes"  value="P{{ code.ProductCode.ProductCode }}"/></li>
                                 {% endfor %}
                             </ul>
                             <br/>
-                            <input class="btn btn-primary" type="submit" value="Guardar">
+                            <input id="save_codes" class="btn btn-primary" type="submit" value="Guardar" {% if not codes %}style="display:none;"{% endif %}>
                         </form>
                     </div>
                 </div>
@@ -96,7 +99,7 @@
             liElements.children("div[class*='chkbox']").css( "display", "none" );
             liElements.children("div[class*='jqx-tree-item']").css( "margin-left", "0px");
             tree.css('visibility', 'visible');
-            $('#jqxCheckBox').jqxCheckBox({ width: '200px', height: '25px', checked: true });
+            //$('#jqxCheckBox').jqxCheckBox({ width: '200px', height: '25px', checked: true });
             $('#jqxCheckBox').on('change', function (event) {
                 var checked = event.args.checked;
                 tree.jqxTree({ hasThreeStates: checked });
@@ -149,11 +152,20 @@
            let checked = args.checked;
            if(checked){
                if(!$( "#Chkd"+ $(element)[0].id).length)
+               {
                    $("#selectedCodes").append('<li id="Chkd' + $(element)[0].id + '" class="list-group-item" name="chosen_codes">' + $(element).text() + '<input type="hidden" name="chosen_codes"  value="'+ $(element)[0].id +'"/></li>');
+                   $("#infoNoCodes").css( "display", "none" );
+                   $("#save_codes").show();
+               }
            }
            else{
                console.log('deselected item - ' + $(element)[0].id);
                $("#Chkd"+$(element)[0].id).remove();
+               if(!$( "#selectedCodes" ).has( "li" ).length)
+               {
+                    $("#infoNoCodes").show();
+                    $("#save_codes").css("display", "none")
+               }
            }
        });
     </script>
