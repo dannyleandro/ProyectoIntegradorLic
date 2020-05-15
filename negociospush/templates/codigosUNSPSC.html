@@ -88,9 +88,10 @@
     <script type="text/javascript" src="{% static 'plugins/jqwidgets/jqxcheckbox.js' %}"></script>
     <script type="text/javascript">
         var tree = $('#jqxTree');
+        let products = "{{code_template}}";
+        products = products.replace(/\s/g, "").slice(1,-1).split(',');
         $(document).ready(function () {
             // Create jqxTree
-
             var source = null;
             // create jqxTree
             tree.jqxTree({checkboxes: true});
@@ -138,8 +139,7 @@
                     let liElements = $("li[id*='S'], li[id*='F'], li[id*='C']").add($("div:contains('Loading...')").parents("li"));
                     liElements.children("div[class*='chkbox']").css( "display", "none" );
                     liElements.children("div[class*='jqx-tree-item']").css( "margin-left", "0px");
-                    let products = "{{code_template}}";
-                    products = products.replace(/\s/g, "").slice(1,-1).split(',');
+
                     for(const product of products){
                         tree.jqxTree('checkItem', $("#P"+product)[0], true);
                     }
@@ -156,23 +156,37 @@
                    $("#selectedCodes").append('<li id="Chkd' + $(element)[0].id + '" class="list-group-item" name="chosen_codes">' + $(element).text() + '<input type="hidden" name="chosen_codes"  value="'+ $(element)[0].id +'"/></li>');
                    $("#infoNoCodes").css( "display", "none" );
                    $("#save_codes").show();
+                   let ele = $(element)[0].id.slice(1).toString();
+                   //console.log(ele);
+                   const index = products.indexOf(ele);
+                   if (index < 0) {
+                       products.push(ele);
+                   }
+                   //console.log(products);
                }
            }
            else{
-               console.log('deselected item - ' + $(element)[0].id);
+               //console.log('deselected item - ' + $(element)[0].id);
                $("#Chkd"+$(element)[0].id).remove();
+               let ele = $(element)[0].id.slice(1).toString();
+               //console.log(ele);
+               const index = products.indexOf(ele);
+               if (index > -1) {
+                   products.splice(index, 1);
+               }
                if(!$( "#selectedCodes" ).has( "li" ).length)
                {
                     $("#infoNoCodes").show();
                     $("#save_codes").css("display", "none")
                }
+               //console.log(products);
            }
        });
     </script>
     <script>
         function required()
         {
-            console.log($( "#selectedCodes" ).has( "li" ).length);
+            // console.log($( "#selectedCodes" ).has( "li" ).length);
             if(!$( "#selectedCodes" ).has( "li" ).length)
             {
                 alert("No ha seleccionado ningún codigo");
