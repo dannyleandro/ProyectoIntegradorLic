@@ -1,0 +1,122 @@
+{% extends 'frontend/pages/layout/base.html' %}
+{% block body %}
+  {% load static %}
+  <script src="{% static 'dist/js/pages/functions.js' %}"></script>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <!-- /.col -->
+      <div class="col-md-9">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><b>Detalle del proceso</b></h3>
+            {% comment %}<div class="card-tools">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Buscar #Proceso">
+                <div class="input-group-append">
+                  <div class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                  </div>
+                </div>
+              </div>
+            </div>{% endcomment %}
+            <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            </div>
+            <div class="table-responsive mailbox-messages">
+              <table class="table table-hover table-striped">
+
+                <tbody>
+                {% for process in dprocess %}
+                  <tr>
+                    <td><b>ID Proceso</b></td>
+                    <td>{{ process.ProcessNumber }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Entidad</b></td>
+                    <td>{{ process.EntityName|upper }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Nit</b></td>
+                    <td>{{ process.EntityNIT }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Ciudad de Ejecucion</b></td>
+                    <td>{{ process.ExecutionCity }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Descripcion</b></td>
+                    <td>{{ process.Description }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Fecha de cargue</b></td>
+                    <td>{{ process.LoadDate }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Fecha</b></td>
+                    <td>{{ process.SystemLoadDate }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Monto</b></td>
+                    <td>{{ process.Amount }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <!-- /.table -->
+            </div>
+            <!-- /.mail-box-messages -->
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+
+  <!-- ./wrapper -->
+
+
+  <script>
+    $(function () {
+
+      $('#reservation').daterangepicker()
+
+      //Handle starring for glyphicon and font awesome
+      $('.mailbox-star').click(function (e) {
+        e.preventDefault()
+        //detect type
+        var $this = $(this).find('a > i')
+        var glyph = $this.hasClass('glyphicon')
+        var fa = $this.hasClass('fa')
+
+        //Switch states
+        if (glyph) {
+          $this.toggleClass('glyphicon-star')
+          $this.toggleClass('glyphicon-star-empty')
+        }
+
+        if (fa) {
+          $this.toggleClass('fa-star')
+          $this.toggleClass('fa-star-o')
+        }
+
+      })
+    })
+
+
+  </script>
+
+
+
+{% endblock %}
+<!-- Page Script -->
+
+

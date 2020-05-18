@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^FamiliesBySegment/(?P<segment_code>\d+)$', views.get_families, name='FamiliesBySegment'),
     url(r'^ClassesByFamily/(?P<family_code>\d+)$', views.get_classes, name='ClassesByFamily'),
     url(r'^ProductsByClass/(?P<class_code>\d+)$', views.get_products, name='ProductsByClass'),
-    url(r'^notificationList/(?P<notification_code>\d+)$', views.notification_list, name='notificationList')
+    url(r'^notificationList/(?P<notification_code>\d+)$', views.notification_list, name='notificationList'),
+    url(r'^detalleProcess/(?P<num_constancia>[\w.@+-]+)$', views.get_detalle_process, name='detalleProcess')
 ]

@@ -181,7 +181,7 @@
                 <tbody>
                 {% for process in page_obj %}
                   <tr>
-                    <td><a href="/detalleProcess/{{ process.ProcessNumber }}">ver</a></td>
+                    <td class="mailbox-star"><a href="#">ver<i class="fas fa-star-o"></i></a></td>
                     <td>{{ process.ProcessNumber }}</td>
                     <td>{{ process.EntityName|upper }}</td>
                     <td>{{ process.EntityNIT }}</td>

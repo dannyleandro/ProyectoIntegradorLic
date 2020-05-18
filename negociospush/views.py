@@ -211,6 +211,14 @@ def get_products(request, class_code):
     return JsonResponse(result, safe=False)
 
 
+def get_detalle_process(request, num_constancia):
+    print(num_constancia)
+    context = {}
+    process = Process.objects.filter(ProcessNumber=num_constancia)
+    context = {'dprocess':process}
+    return render(request, 'detalle.html', context)
+
+
 # Create event for metrics
 def create_event(request, idevtn):
     evt_type = EventTypes.objects.get(pk=idevtn.value)
@@ -240,6 +248,8 @@ def notification_list(request, notification_code):
     context['unread_notifications'] = Notification.objects.filter(recipient=request.user, read=False)
     create_event(request, EVENTS.NOTIFICATION_LIST)
     return render(request, 'notificationList.html', context)
+
+
 
 
 class ListProfiles(generics.ListCreateAPIView):
