@@ -3,7 +3,7 @@
 # platform: win-64
 # ca-certificates==2020.1.1
 certifi==2019.11.28
-django==3.0.3
+django==3.0.14
 asgiref==3.2.3
 pytz==2019.3
 setuptools==45.2.0
