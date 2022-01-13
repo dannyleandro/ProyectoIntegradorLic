@@ -10,7 +10,7 @@ setuptools==45.2.0
 # sqlite==3.31.1
 sqlparse==0.3.0
 Image==1.5.28
-pillow==7.0.0
+pillow==9.0.0
 vc==2018.7.10
 # vs2015_runtime==14.16.27012
 wheel==0.34.2
