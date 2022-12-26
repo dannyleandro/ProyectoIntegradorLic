@@ -13,7 +13,7 @@ Image==1.5.28
 pillow==7.0.0
 vc==2018.7.10
 # vs2015_runtime==14.16.27012
-wheel==0.34.2
+wheel==0.38.1
 wincertstore==0.2
 gunicorn==20.0.4
 whitenoise==5.0.1
